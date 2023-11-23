@@ -9,7 +9,7 @@ api= Api(app)
 class Home(Resource):
     def get(self):
 
-        return {'message': 'Username already in use. Please choose a different one.'},200
+        return {'message': 'Username already in use. Please choose a different one sighhhh.'},200
     
 api.add_resource(Home, '/',endpoint='home')  
 
