@@ -11,6 +11,14 @@ class Home(Resource):
 
         return {'message': 'Username already in use. Please choose a different one.'},200
     
-api.add_resource(Home, '/',endpoint='home')    
-if __name__=='__main__':
-    app.run(debug=True, port=5000)
+api.add_resource(Home, '/',endpoint='home')  
+
+class Sign(Resource):
+    def get(self):
+
+        return {'message': 'Username already in use. Please choose a different one.'},200
+    
+api.add_resource(Sign, '/sign',endpoint='sign') 
+
+# if __name__=='__main__':
+#     app.run(debug=True, port=5000)
