@@ -7,6 +7,9 @@ import os
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 fake = Faker()
@@ -14,7 +17,7 @@ fake = Faker()
 db.init_app(app)
 
 with app.app_context():
-    
+
     StudentProject.query.delete()
     Student.query.delete()
     Project.query.delete()
