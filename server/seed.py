@@ -2,10 +2,11 @@ from models import *
 from flask import Flask
 from faker import Faker
 from random import choice
+import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 fake = Faker()
