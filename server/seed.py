@@ -3,10 +3,12 @@ from flask import Flask
 from faker import Faker
 from random import choice
 import os
+import re
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+uri = os.getenv("DATABASE_URL")
+# or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = uri
