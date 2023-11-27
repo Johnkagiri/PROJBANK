@@ -24,7 +24,7 @@ class Home(Resource):
     def get(self):
         allstudent=Student.query.all()
         jsonify(allstudent.to_dict()) 
-        return jsonify(allstudent.to_dict())
+        return jsonify([allstudents.to_dict() for allstudents in allstudent] )
     
 api.add_resource(Home, '/',endpoint='home')  
 
