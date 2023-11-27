@@ -35,6 +35,7 @@ class StudentLogin(Resource):
         password_hash=data.get('password')
 
         studentinst= Student.query.filter(Student.email==email).first()
+        
         if not email and not password_hash:
             return{'message':'email and password required'},400
         
