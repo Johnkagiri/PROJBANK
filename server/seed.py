@@ -14,25 +14,28 @@ fake = Faker()
 db.init_app(app)
 
 with app.app_context():
-
+    
+    StudentProject.query.delete()
     Student.query.delete()
-    students = []
+    Project.query.delete()
+    
+    studentss = []
     for i in range(10):
         student = Student(name = fake.name(), email = fake.email(), password_hash = fake.name() )
-        students.append(student)
-    db.session.add_all(students)
+        studentss.append(student)
+    db.session.add_all(studentss)
 
-    Project.query.delete()
+
     projects = []
     for i in range(15):
         project = Project(name = fake.name(), description = fake.paragraph(50), githublink=fake.name(), languages=fake.name() )
         projects.append(project)
     db.session.add_all(projects)
     
-    StudentProject.query.delete()
+
     studentprojects = []
     for i in range(5):
-        studentproject = StudentProject(student=choice(students),project=choice(projects))
+        studentproject = StudentProject(student=choice(studentss),project=choice(projects))
         studentprojects.append(studentproject)
     db.session.add_all(studentprojects)
     db.session.commit()    
