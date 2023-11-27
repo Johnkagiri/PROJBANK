@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+from python_dotenv import load_dotenv
 load_dotenv()
 from flask import Flask, jsonify, request, make_response, session
 from flask_migrate import Migrate
@@ -35,7 +35,7 @@ class StudentLogin(Resource):
         password_hash=data.get('password')
 
         studentinst= Student.query.filter(Student.email==email).first()
-        
+
         if not email and not password_hash:
             return{'message':'email and password required'},400
         
