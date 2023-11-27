@@ -22,8 +22,9 @@ api= Api(app)
 
 class Home(Resource):
     def get(self):
-
-        return {'message': 'Username already in use. Please choose a different one sighhhh.'},200
+        allstudent=Student.query.all()
+        jsonify(allstudent.to_dict()) 
+        return jsonify(allstudent.to_dict())
     
 api.add_resource(Home, '/',endpoint='home')  
 
