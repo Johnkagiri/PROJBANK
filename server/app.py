@@ -123,7 +123,7 @@ class Projectres(Resource):
         response = make_response(jsonify(newproj.to_dict()))
         response.content_type='application/json'
         return response
-api.add_resource(Project, '/project', endpoint='project')   
+api.add_resource(Projectres, '/project', endpoint='project')   
 
 class Cohortres(Resource):
     def get(self):
@@ -135,6 +135,8 @@ class Adminres(Resource):
     def get(self):
         alladmin=Admin.query.all()
         return jsonify([admin.to_dict() for admin in alladmin])
+api.add_resource(Adminres, '/admin', endpoint='admin')
+
 
 
 if __name__=='__main__':
