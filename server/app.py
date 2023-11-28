@@ -20,6 +20,8 @@ CORS(app)
 db.init_app(app)
 api= Api(app)
 
+app.secret_key = os.urandom(16)
+
 class Home(Resource):
     def get(self):
         allstudent=Student.query.all()
@@ -40,12 +42,63 @@ class StudentLogin(Resource):
             return{'message':'email and password required'},400
         
         if studentinst and studentinst.authenticate(password_hash):
+             session['userid']= studentinst.id
              return {'message':'login successful', 'student':studentinst.to_dict(), 'status':200  }
         else:
             return {'message':'invalid password or email'},402
     
 api.add_resource(StudentLogin, '/studentlogin',endpoint='studentlogin') 
 
+class AdminLogin(Resource):
+    def post(self):
+        data = request.get_json()
+        
+        name=data.get('name')
+        password_hash=data.get('password')
+
+        admininst= Admin.query.filter(Admin.name==name).first()
+
+        if not name and not password_hash:
+            return{'message':'name and password required'},400
+        
+        if admininst and admininst.authenticate(password_hash):
+             session['userid']= admininst.id
+             return {'message':'login successful', 'student':admininst.to_dict(), 'status':200  }
+        else:
+            return {'message':'invalid password or admin'},402
+    
+api.add_resource(AdminLogin, '/adminlogin',endpoint='adminlogin')
+
+class Studentres(Resource):
+    def get(self):
+        allstudent=Student.query.all()
+        return jsonify([allstudents.to_dict() for allstudents in allstudent] ) 
+
+    def post(self):
+        data = request.get_json()
+
+        name = data.get('name')
+        email = data.get('email')
+        cohort_id = data.get('cohort')
+        # password_hash = data.get('password')
+
+        stud_exist = Student.query.filter(Student.email == email)
+        if stud_exist:
+            return {'message':'Student already exists'}
+        newstudent=Student(name=name, email=email, cohort_id=cohort_id, password_hash=email )
+
+        db.session.add(newstudent)
+        db.commit()
+
+        response = make_response(jsonify(newstudent.to_dict()))
+        response.content_type='application/json'
+
+        return response
+
+
+
+
+api.add_resource(Studentres, '/student', endpoint='student' )
 
 
 if __name__=='__main__':
