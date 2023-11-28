@@ -123,7 +123,7 @@ class Projectres(Resource):
         response = make_response(jsonify(newproj.to_dict()))
         response.content_type='application/json'
         return response
-api.add_resource(Project, '/project', endpoints='project')   
+api.add_resource(Project, '/project', endpoint='project')   
 
 class Cohortres(Resource):
     def get(self):
