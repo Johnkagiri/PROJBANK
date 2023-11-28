@@ -25,7 +25,10 @@ app.secret_key = os.urandom(16)
 class Home(Resource):
     def get(self):
         allstudent=Student.query.all()
-        return jsonify([allstudents.to_dict() for allstudents in allstudent] )
+        response = make_response(jsonify([allstudents.to_dict() for allstudents in allstudent] ))
+        response.content_type='application/json'
+
+        return response
     
 api.add_resource(Home, '/',endpoint='home')  
 
@@ -95,10 +98,43 @@ class Studentres(Resource):
 
         return response
 
-
-
-
 api.add_resource(Studentres, '/student', endpoint='student' )
+
+class Projectres(Resource):
+    def get(self):
+        allprojects = Project.query.all()
+        return jsonify([project for project in allprojects  ])
+    
+    def post(self):
+        data = request.get_json()
+
+        name = data.get('name')
+        description = data.get('description')
+        githublink = data.get('githublink') 
+        languages = data.get('languages')
+
+        projexist= Project.query.filter(Project.name==name).first()
+
+        if projexist:
+            return {'message':'project exists'}
+        newproj = Project(name=name, description=description, githublink=githublink, languages=languages) 
+        session.add(newproj)
+        session.commit()
+        response = make_response(jsonify(newproj.to_dict()))
+        response.content_type='application/json'
+        return response
+api.add_resource(Project, '/project', endpoints='project')   
+
+class Cohortres(Resource):
+    def get(self):
+        allcohort = Project.query.all()
+        return jsonify([cohort.to_dict() for cohort in allcohort] )
+api.add_resource(Cohortres, '/cohort', endpoint='cohort')
+
+class Adminres(Resource):
+    def get(self):
+        alladmin=Admin.query.all()
+        return jsonify([admin.to_dict() for admin in alladmin])
 
 
 if __name__=='__main__':
