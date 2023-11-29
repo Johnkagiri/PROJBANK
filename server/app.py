@@ -36,21 +36,21 @@ class StudentLogin(Resource):
     def post(self):
         data = request.get_json()
         
-        email = data.get('email')
-        password_hash = data.get('password')
+        email=data.get('email')
+        password_hash=data.get('password')
 
-        student_inst = Student.query.filter(Student.email == email).first()
+        studentinst= Student.query.filter(Student.email==email).first()
 
-        if not (email and password_hash):
-            return {'message': 'email and password required'}, 400
-
-        if student_inst and student_inst.authenticate(password_hash):
-            session['userid'] = student_inst.id
-            return {'message': 'login successful', 'student': student_inst.to_dict()}, 200
+        if not email and not password_hash:
+            return{'message':'email and password required'},400
+        
+        if studentinst and studentinst.authenticate(password_hash):
+             session['userid']= studentinst.id
+             return {'message':'login successful', 'student':studentinst.to_dict(), 'status':200  }
         else:
-            return {'message': 'invalid password or email'}, 401
-
-api.add_resource(StudentLogin, '/studentlogin', endpoint='studentlogin') 
+            return {'message':'invalid password or email'},402
+    
+api.add_resource(StudentLogin, '/studentlogin',endpoint='studentlogin') 
 
 class AdminLogin(Resource):
     def post(self):
