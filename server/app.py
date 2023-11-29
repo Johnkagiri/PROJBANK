@@ -114,7 +114,7 @@ class Projectres(Resource):
         languages = data.get('languages')
 
         projexist= Project.query.filter(Project.name==name).first()
-
+#d
         if projexist:
             return {'message':'project exists'}
         newproj = Project(name=name, description=description, githublink=githublink, languages=languages) 
