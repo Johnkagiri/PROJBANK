@@ -36,21 +36,21 @@ class StudentLogin(Resource):
     def post(self):
         data = request.get_json()
         
-        email=data.get('email')
-        password_hash=data.get('password')
+        email = data.get('email')
+        password = data.get('password')
 
-        studentinst= Student.query.filter(Student.email==email).first()
+        student_inst = Student.query.filter(Student.email == email).first()
 
-        if not email and not password_hash:
-            return{'message':'email and password required'},400
-        
-        if studentinst and studentinst.authenticate(password_hash):
-             session['userid']= studentinst.id
-             return {'message':'login successful', 'student':studentinst.to_dict(), 'status':200  }
+        if not (email and password):
+            return {'message': 'email and password required'}, 400
+
+        if student_inst and student_inst.authenticate(password):
+            session['userid'] = student_inst.id
+            return {'message': 'login successful', 'student': student_inst.to_dict()}, 200
         else:
-            return {'message':'invalid password or email'},402
-    
-api.add_resource(StudentLogin, '/studentlogin',endpoint='studentlogin') 
+            return {'message': 'invalid password or email'}, 401
+
+api.add_resource(StudentLogin, '/studentlogin', endpoint='studentlogin') 
 
 class AdminLogin(Resource):
     def post(self):
@@ -118,8 +118,8 @@ class Projectres(Resource):
         if projexist:
             return {'message':'project exists'}
         newproj = Project(name=name, description=description, githublink=githublink, languages=languages) 
-        session.add(newproj)
-        session.commit()
+        db.session.add(newproj)
+        db.session.commit()
         response = make_response(jsonify(newproj.to_dict()))
         response.content_type='application/json'
         return response
