@@ -37,14 +37,14 @@ class StudentLogin(Resource):
         data = request.get_json()
         
         email = data.get('email')
-        password = data.get('password')
+        password_hash = data.get('password')
 
         student_inst = Student.query.filter(Student.email == email).first()
 
-        if not (email and password):
+        if not (email and password_hash):
             return {'message': 'email and password required'}, 400
 
-        if student_inst and student_inst.authenticate(password):
+        if student_inst and student_inst.authenticate(password_hash):
             session['userid'] = student_inst.id
             return {'message': 'login successful', 'student': student_inst.to_dict()}, 200
         else:
