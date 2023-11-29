@@ -85,8 +85,8 @@ class Studentres(Resource):
         cohort_id = data.get('cohort')
         # password_hash = data.get('password')
 
-        stud_exist = Student.query.filter(Student.email == email)
-        if stud_exist:
+        stud_exist = Student.query.filter(Student.email == email).first()
+        if not stud_exist:
             return {'message':'Student already exists'}
         newstudent=Student(name=name, email=email, cohort_id=cohort_id, password_hash=email )
 
