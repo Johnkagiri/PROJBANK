@@ -83,15 +83,15 @@ class Studentres(Resource):
         name = data.get('name')
         email = data.get('email')
         cohort_id = data.get('cohort')
-        # password_hash = data.get('password')
+        password_hash = data.get('password')
 
-        # stud_exist = Student.query.filter(Student.email == email).first()
-        # if not stud_exist:
-        #     return {'message':'Student already exists'}
+        stud_exist = Student.query.filter(Student.email == email).first()
+        if stud_exist:
+            return {'message':'Student already exists'}
         newstudent=Student(name=name, email=email, cohort_id=cohort_id, password_hash=email )
 
         db.session.add(newstudent)
-        db.commit()
+        db.session.commit()
 
         response = make_response(jsonify(newstudent.to_dict()))
         response.content_type='application/json'
