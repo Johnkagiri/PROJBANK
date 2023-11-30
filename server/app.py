@@ -65,7 +65,7 @@ class AdminLogin(Resource):
             return{'message':'name and password required'},400
         
         if admininst and admininst.authenticate(password_hash):
-             session['userid']= admininst.id
+            #  session['userid']= admininst.id
              return {'message':'login successful', 'student':admininst.to_dict(), 'status':200  }
         else:
             return {'message':'invalid password or admin'},402
@@ -114,7 +114,7 @@ class Projectres(Resource):
         languages = data.get('languages')
 
         projexist= Project.query.filter(Project.name==name).first()
-#d
+
         if projexist:
             return {'message':'project exists'}
         newproj = Project(name=name, description=description, githublink=githublink, languages=languages) 

@@ -38,5 +38,8 @@ with app.app_context():
         studentproject = StudentProject(student=choice(studentss),project=choice(projects))
         studentprojects.append(studentproject)
     db.session.add_all(studentprojects)
-    db.session.commit()    
+       
      
+    admin=Admin(name="john" , password_hash="john")
+    db.session.add(admin)
+    db.session.commit() 
