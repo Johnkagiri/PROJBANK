@@ -45,7 +45,7 @@ class StudentLogin(Resource):
             return{'message':'email and password required'},400
         
         if studentinst and studentinst.authenticate(password_hash):
-             session['userid']= studentinst.id
+            #  session['userid']= studentinst.id
              return {'message':'login successful', 'student':studentinst.to_dict(), 'status':200  }
         else:
             return {'message':'invalid password or email'},402
@@ -83,7 +83,7 @@ class Studentres(Resource):
         name = data.get('name')
         email = data.get('email')
         cohort_id = data.get('cohort')
-        password_hash = data.get('password')
+        # password_hash = data.get('password')
 
         stud_exist = Student.query.filter(Student.email == email).first()
         if stud_exist:

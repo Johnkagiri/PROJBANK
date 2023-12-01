@@ -1,14 +1,14 @@
 import React from "react";
 import { useFormik } from "formik";
 
-function Login() {
+function Studentlogin() {
   const formik = useFormik({
     initialValues: {
-      name: "",
+      email: "",
       password: "",
     },
     onSubmit: (values) => {
-      fetch("http://127.0.0.1:8000/adminlogin", {
+      fetch("http://127.0.0.1:8000/studentlogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,19 +26,19 @@ function Login() {
     <div>
       <div className=" border-2 border-red-500 h-screen ">
         <div className="bg-white-500 border-2 border-solid border-red-500 w-2/3 sm:w-1/3 ml-auto h-full p-3 flex flex-col items-center justify-center ">
-          <h3 className="">Admin Login</h3>
+          <h3 className="">Student Login</h3>
           <form onSubmit={formik.handleSubmit} className=" mt-7 ">
-            <label className="text-gray-600">Name</label>
+            <label className="text-gray-600">Email</label>
             <input
-              id="name"
-              name="name"
+              id="email"
+              email="email"
               onChange={formik.handleChange}
-              value={formik.values.name}
+              value={formik.values.email}
               className=" w-full bg-gray-200 "
             />
             <label className="text-gray-600 ">Password</label>
             <input
-            type="password"
+              type="password"
               id="password"
               name="password"
               onChange={formik.handleChange}
@@ -64,4 +64,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Studentlogin;
