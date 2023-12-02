@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 
 function Login() {
   const formik = useFormik({
@@ -24,8 +25,18 @@ function Login() {
 
   return (
     <div>
-      <div className=" border-2 border-red-500 h-screen ">
-        <div className="bg-white-500 border-2 border-solid border-red-500 w-2/3 sm:w-1/3 ml-auto h-full p-3 flex flex-col items-center justify-center ">
+      <div className="h-screen p-3 ">
+        <div className=" h-16 bg-slate-400 flex flex-row justify-between p-3 ">
+         <Link to='/'> <h1 className="  mt-2 bg-slate-300 rounded-md h-3/4 p-1 text-sm ">
+            logo
+          </h1></Link>
+          <Link to='/studentlogin' >
+            <button className="bg-blue-400 h-3/4  mt-2 p-1 text-sm text-white rounded-lg ">
+              Login as Student
+            </button>
+          </Link>
+        </div>
+        <div className="  bg-slate-200  w-2/3 sm:w-1/3 m-auto h-screen p-3 flex flex-col items-center justify-start mt-9">
           <h3 className="">Admin Login</h3>
           <form onSubmit={formik.handleSubmit} className=" mt-7 ">
             <label className="text-gray-600">Name</label>
@@ -34,16 +45,16 @@ function Login() {
               name="name"
               onChange={formik.handleChange}
               value={formik.values.name}
-              className=" w-full bg-gray-200 "
+              className=" w-full bg-gray-300 text-sm text-slate-700 "
             />
             <label className="text-gray-600 ">Password</label>
             <input
-            type="password"
+              type="password"
               id="password"
               name="password"
               onChange={formik.handleChange}
               value={formik.values.password}
-              className=" w-full bg-gray-200 "
+              className=" w-full bg-gray-300 text-sm text-slate-700 "
             />
             <p className="text-blue-500 text-xs mt-2 text-right ">
               Forgot password?

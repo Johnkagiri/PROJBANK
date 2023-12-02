@@ -28,7 +28,7 @@ with app.app_context():
 
     projects = []
     for i in range(15):
-        project = Project(name = fake.name(), description = fake.paragraph(50), githublink=fake.name(), languages=fake.name() )
+        project = Project(name = fake.name(), description = fake.paragraph(2), githublink=fake.name(), languages=fake.name() )
         projects.append(project)
     db.session.add_all(projects)
     
@@ -42,4 +42,9 @@ with app.app_context():
      
     admin=Admin(name="john" , password_hash="john")
     db.session.add(admin)
+    
+    
+    fake_date = fake.date_between(start_date='-7y', end_date='today')
+    cohort=Cohort(name='win',start_date=fake_date, end_date=fake_date, admin_id=1 )
+    db.session.add(cohort)
     db.session.commit() 

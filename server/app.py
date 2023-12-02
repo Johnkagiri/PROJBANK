@@ -13,14 +13,17 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://njoro:4EoZ1J1LN5LrG2vUy2wlegPiaJrEfNNk@dpg-cliarb58td7s73bucja0-a.singapore-postgres.render.com/projbank_app"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JSONIFY_PRETTYPRINT_REGULAR']= True
-migrate = Migrate(app, db )
+migrate = Migrate(app,db,render_as_batch=True)
+
+
+app.secret_key = 'hello'
 
 CORS(app)
 
 db.init_app(app)
 api= Api(app)
 
-app.secret_key = os.urandom(16)
+
 
 class Home(Resource):
     def get(self):
@@ -45,8 +48,8 @@ class StudentLogin(Resource):
             return{'message':'email and password required'},400
         
         if studentinst and studentinst.authenticate(password_hash):
-            #  session['userid']= studentinst.id
-             return {'message':'login successful', 'student':studentinst.to_dict(), 'status':200  }
+             session['userid']= studentinst.id
+             return {'message':'login successful', 'student':studentinst.to_dict(), 'session':session['userid'], 'status':200  }
         else:
             return {'message':'invalid password or email'},402
     
@@ -103,7 +106,7 @@ api.add_resource(Studentres, '/student', endpoint='student' )
 class Projectres(Resource):
     def get(self):
         allprojects = Project.query.all()
-        return jsonify([project for project in allprojects  ])
+        return jsonify([project.to_dict() for project in allprojects  ])
     
     def post(self):
         data = request.get_json()
@@ -123,11 +126,40 @@ class Projectres(Resource):
         response = make_response(jsonify(newproj.to_dict()))
         response.content_type='application/json'
         return response
-api.add_resource(Projectres, '/project', endpoint='project')   
+api.add_resource(Projectres, '/project', endpoint='project') 
+
+class Projectbyid(Resource):
+    def get(self,id):
+        project=Project.query.filter_by(id=id).first()
+
+        if not project:
+            return{'error':'Project nit found'}
+        
+        project_dict=project.to_dict()
+
+        response=make_response(jsonify(project_dict),200)
+        return response
+    
+    def patch(self,id):
+        project=Project.query.filter_by(id=id).first()
+        if not project:
+            return{'error':'Project nit found'}
+
+        for attr in request.get_json():
+            setattr(project,attr,request.get_json()[attr])
+
+            db.session.add(project)
+            db.session.commit()
+
+            project_dict=project.to_dict()
+            response=make_response(jsonify(project_dict),200)
+            return response
+api.add_resource(Projectbyid, '/project/<int:id>',endpoint='projectid')
+
 
 class Cohortres(Resource):
     def get(self):
-        allcohort = Project.query.all()
+        allcohort = Cohort.query.all()
         return jsonify([cohort.to_dict() for cohort in allcohort] )
 api.add_resource(Cohortres, '/cohort', endpoint='cohort')
 
@@ -137,6 +169,27 @@ class Adminres(Resource):
         return jsonify([admin.to_dict() for admin in alladmin])
 api.add_resource(Adminres, '/admin', endpoint='admin')
 
+class CheckSession(Resource):
+    def get(self):
+        return {'session':session.get('userid')}
+        if session.get('userid'):
+            user=Student.query.filter(Student.id==session.get('userid')).first()
+            user_dict=user.to_dict()
+            return make_response(jsonify(user_dict),200)
+        else:
+            return 'user is not in session please log in'
+        
+
+api.add_resource(CheckSession, '/session', endpoint='session')
+class Logout(Resource):
+    def delete(self):
+        if session.get('userid'):
+            session['userid']=None
+            return jsonify({'message': 'User logged out successfully'})
+        else: 
+            return {"error": "User must be logged in"}
+
+api.add_resource(Logout, '/logout', endpoint='logout')
 
 
 if __name__=='__main__':

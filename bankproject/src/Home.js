@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
-function Home() {
+function Home({ projects }) {
   const [click, setClick] = useState(false);
 
+  // console.log(projects);
   const sidemenu = classNames(
-    "border-2 border-solid border-red-500 w-1/2 sm:w-1/4 h-full bg-slate-700 absolute top-0 z-10 sm:left-0 rounded-e-md text-center ",
+    " w-1/2 sm:w-1/4 h-screen  bg-slate-700 fixed top-0 z-10 sm:left-0 rounded-e-md text-center ",
     {
       "left-0": click,
       "left-[-400px]": !click,
@@ -16,9 +18,9 @@ function Home() {
   return (
     <div>
       <div className="h-full">
-        <div className="border-2 border-solid border-red-500 w-full h-full relative p-2">
+        <div className=" w-full h-full relative p-2">
           {/* top part */}
-          <div className="border-2 border-solid border-red-500 w-full h-full flex items-center justify-between mt-3 p-1">
+          <div className=" w-full h-full flex items-center justify-between mt-3 p-1">
             {/* bars */}
             <div className=" flex justify-between w-1/3">
               {" "}
@@ -35,13 +37,17 @@ function Home() {
               <p className="text-sm">welcome</p>
             </div>
             {/* icon */}
-            <div className=" w-5 h-5 bg-slate-600 rounded-full text-center text-sm ">
-              k
+            <div className="  h-5   text-center text-sm flex flex-row justify-center ">
+             
+                <Link to='/adminlogin' ><p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">admin</p></Link>
+                <Link to='/studentlogin' ><p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">student</p></Link>
+              
+              <div className="bg-slate-600 w-5 rounded-full">k</div>
             </div>
           </div>
 
           {/* middle section */}
-          <div className="border-2 border-solid border-red-500 w-full sm:w-3/4 sm:ml-auto h-full flex justify-between mt-8">
+          <div className=" w-full sm:w-3/4 sm:ml-auto h-full flex justify-between mt-8">
             <h2 className="p-1">Discover</h2>
             <div className="w-4/6 flex justify-end p-1">
               <input className="w-full bg-slate-300 rounded-s-md" />
@@ -62,27 +68,22 @@ function Home() {
           </button>
 
           {/* card section */}
-          <div className="border-2 border-solid border-red-500 w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
-            <div className="w-full border-2 border-solid border-red-500 bg-slate-300 h-32 rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-            </div>
-            <div className="w-full border-2 border-solid border-red-500 bg-slate-300 h-32 rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-            </div>
-            <div className="w-full border-2 border-solid border-red-500 bg-slate-300 h-32 rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-            </div>
-            <div className="w-full border-2 border-solid border-red-500 bg-slate-300 h-32 rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-            </div>
+          <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
+            {projects.length? (
+              projects.map((project) => (
+                <Link to={`/project/${project.id}`} > <div
+                  className="w-full bg-slate-300 h-32 rounded-md pt-3"
+                  key={project.id}
+                >
+                  <h3 className=" text-black  " >{project.name}</h3>
+                  <p className="text-sm text-slate-600" >{project.description}</p>
+                  <p className="text-sm text-slate-600" > {project.githublink}</p>
+                </div></Link>
+              ))
+            ) : (
+              <p>No projects available</p>
+            )}
+
           </div>
 
           {/* menu section */}
@@ -90,13 +91,12 @@ function Home() {
             <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">
               <h2>LOGO</h2>
             </div>
-            <div className="mt-20 text-white text-center " >
-              <h4 className="mt-3" >Discover</h4>
-              <h4 className="mt-3" >Projects</h4>
-              <h4 className="mt-3" >Cohort</h4>
-              <h4 className="mt-3" >People</h4>
-              <h4 className="mt-3" >Languages</h4>
-
+            <div className="mt-20 text-white text-center ">
+              <h4 className="mt-3">Discover</h4>
+              <h4 className="mt-3">Projects</h4>
+              <h4 className="mt-3">Cohort</h4>
+              <h4 className="mt-3">People</h4>
+              <h4 className="mt-3">Languages</h4>
             </div>
           </div>
         </div>
