@@ -1,36 +1,59 @@
 import React from "react";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({ user, isloggedin, setUser, setIsloggedin }) {
+  const navigate = useNavigate();
+
+  function handlelogin() {
+    navigate("/adminhome");
+  }
+
   const formik = useFormik({
     initialValues: {
       name: "",
       password: "",
     },
-    onSubmit: (values) => {
-      fetch("http://127.0.0.1:8000/adminlogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      }).then((res) => {
-        if (res.status == 200) {
-          console.log("succesfull");
+    onSubmit: async (values) => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/adminlogin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
+    
+        if (response.status === 200) {
+          console.log("Login successful");
+          const data = await response.json();
+          setUser(data);
+          setIsloggedin(true);
+          console.log(user);
+          handlelogin();
+        } else {
+          console.log("Login failed");
+          // Handle unsuccessful login
         }
-      });
-    },
+      } catch (error) {
+        console.error("Error during login:", error);
+        // Handle error during login
+      }
+    }
+    
   });
 
   return (
     <div>
       <div className="h-screen p-3 ">
         <div className=" h-16 bg-slate-400 flex flex-row justify-between p-3 ">
-         <Link to='/'> <h1 className="  mt-2 bg-slate-300 rounded-md h-3/4 p-1 text-sm ">
-            logo
-          </h1></Link>
-          <Link to='/studentlogin' >
+          <Link to="/">
+            {" "}
+            <h1 className="  mt-2 bg-slate-300 rounded-md h-3/4 p-1 text-sm ">
+              logo
+            </h1>
+          </Link>
+          <Link to="/studentlogin">
             <button className="bg-blue-400 h-3/4  mt-2 p-1 text-sm text-white rounded-lg ">
               Login as Student
             </button>

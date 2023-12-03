@@ -13,22 +13,22 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [isloggedin, setIsloggedin] = useState(false);
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:8000/session")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        if (data!=null){
-          setUser(data)
-          setIsloggedin(true)
-        }
-        else if (data==null){
-          setUser(null)
-          setIsloggedin(false)
-        }
-      });
-  }, [isloggedin]);
-  console.log(user)
+  // useEffect(() => {
+  //   fetch("http://127.0.0.1:8000/session")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data)
+  //       if (data!=null){
+  //         setUser(data)
+  //         setIsloggedin(true)
+  //       }
+  //       else if (data==null){
+  //         setUser(null)
+  //         setIsloggedin(false)
+  //       }
+  //     });
+  // }, [isloggedin]);
+  // console.log(user)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,10 +52,41 @@ function App() {
       {/* <Adminhome /> */}
       {/* <Addstudent /> */}
       <Routes>
-        <Route path="/" element={<Home projects={projects} />} />
-        <Route path="/adminlogin" element={<Login />} />
-        <Route path="/studentlogin" element={<Studentlogin setisloggedin={setIsloggedin} />} />
+        <Route
+          path="/"
+          element={
+            <Home
+              projects={projects}
+              isloggedin={isloggedin}
+              user={user}
+              setIsloggedin={setIsloggedin}
+              setUser={setUser}
+            />
+          }
+        />
+        <Route
+          path="/adminlogin"
+          element={
+            <Login
+              user={user}
+              isloggedin={isloggedin}
+              setIsloggedin={setIsloggedin}
+              setUser={setUser}
+            />
+          }
+        />
+        <Route
+          path="/studentlogin"
+          element={
+            <Studentlogin
+              setisloggedin={setIsloggedin}
+              user={user}
+              setUser={setUser}
+            />
+          }
+        />
         <Route path="/project/:id" element={<Project />} />
+        <Route path="/adminhome" element={<Adminhome />} />
       </Routes>
     </div>
   );

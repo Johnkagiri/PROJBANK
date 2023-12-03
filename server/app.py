@@ -16,9 +16,9 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR']= True
 migrate = Migrate(app,db,render_as_batch=True)
 
 
-app.secret_key = 'hello'
+app.config['SECRET_KEY'] = os.urandom(24)
 
-CORS(app)
+CORS(app, supports_credentials=True)
 
 db.init_app(app)
 api= Api(app)
@@ -49,7 +49,8 @@ class StudentLogin(Resource):
         
         if studentinst and studentinst.authenticate(password_hash):
              session['userid']= studentinst.id
-             return {'message':'login successful', 'student':studentinst.to_dict(), 'session':session['userid'], 'status':200  }
+             response=make_response(studentinst.to_dict(),200)
+             return response
         else:
             return {'message':'invalid password or email'},402
     
@@ -69,7 +70,7 @@ class AdminLogin(Resource):
         
         if admininst and admininst.authenticate(password_hash):
             #  session['userid']= admininst.id
-             return {'message':'login successful', 'student':admininst.to_dict(), 'status':200  }
+             return make_response(admininst.to_dict(),200)
         else:
             return {'message':'invalid password or admin'},402
     
@@ -170,8 +171,11 @@ class Adminres(Resource):
 api.add_resource(Adminres, '/admin', endpoint='admin')
 
 class CheckSession(Resource):
+
     def get(self):
-        return {'session':session.get('userid')}
+        # response=make_response({'session':session.get('userid')})
+       
+        # return response
         if session.get('userid'):
             user=Student.query.filter(Student.id==session.get('userid')).first()
             user_dict=user.to_dict()

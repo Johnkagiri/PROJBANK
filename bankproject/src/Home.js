@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
-function Home({ projects }) {
+function Home({ projects, isloggedin, user, setUser, setIsloggedin }) {
   const [click, setClick] = useState(false);
 
   // console.log(projects);
@@ -15,13 +15,18 @@ function Home({ projects }) {
     }
   );
 
+  function handlelogout(){
+     setIsloggedin(false)
+     setUser(null)
+  }
+
   return (
     <div>
       <div className="h-full">
         <div className=" w-full h-full relative p-2">
           {/* top part */}
           <div className=" w-full h-full flex items-center justify-between mt-3 p-1">
-            {/* bars */}
+            {/* bars and welcome */}
             <div className=" flex justify-between w-1/3">
               {" "}
               <button>
@@ -34,14 +39,35 @@ function Home({ projects }) {
                   <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
                 </svg>
               </button>{" "}
-              <p className="text-sm">welcome</p>
+              {isloggedin ? (
+                <p className="text-sm">welcome {user.name} </p>
+              ) : (
+                <p className="text-sm">welcome</p>
+              )}
             </div>
-            {/* icon */}
-            <div className="  h-5   text-center text-sm flex flex-row justify-center ">
-             
-                <Link to='/adminlogin' ><p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">admin</p></Link>
-                <Link to='/studentlogin' ><p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">student</p></Link>
-              
+            {/* login logout buttons */}
+            <div onClick={handlelogout}  className="  h-5   text-center text-sm flex flex-row justify-center ">
+              {isloggedin ? (
+                <Link to="/">
+                  <p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">
+                    Log out
+                  </p>
+                </Link>
+              ) : (
+                <>
+                  <Link to="/adminlogin">
+                    <p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">
+                      admin
+                    </p>
+                  </Link>
+                  <Link to="/studentlogin">
+                    <p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">
+                      student
+                    </p>
+                  </Link>
+                </>
+              )}
+
               <div className="bg-slate-600 w-5 rounded-full">k</div>
             </div>
           </div>
@@ -69,21 +95,28 @@ function Home({ projects }) {
 
           {/* card section */}
           <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
-            {projects.length? (
+            {projects.length ? (
               projects.map((project) => (
-                <Link to={`/project/${project.id}`} > <div
-                  className="w-full bg-slate-300 h-32 rounded-md pt-3"
-                  key={project.id}
-                >
-                  <h3 className=" text-black  " >{project.name}</h3>
-                  <p className="text-sm text-slate-600" >{project.description}</p>
-                  <p className="text-sm text-slate-600" > {project.githublink}</p>
-                </div></Link>
+                <Link to={`/project/${project.id}`}>
+                  {" "}
+                  <div
+                    className="w-full bg-slate-300 h-32 rounded-md pt-3"
+                    key={project.id}
+                  >
+                    <h3 className=" text-black  ">{project.name}</h3>
+                    <p className="text-sm text-slate-600">
+                      {project.description}
+                    </p>
+                    <p className="text-sm text-slate-600">
+                      {" "}
+                      {project.githublink}
+                    </p>
+                  </div>
+                </Link>
               ))
             ) : (
               <p>No projects available</p>
             )}
-
           </div>
 
           {/* menu section */}

@@ -15,6 +15,7 @@ sqlalchemy-serializer = "*"
 flask-bcrypt = "*"
 faker = "*"
 python-dotenv = "*"
+flask-session = "*"
 
 [dev-packages]
 
