@@ -89,6 +89,7 @@ function App() {
         <Route path="/project/:id" element={<Project />} />
         <Route path="/adminhome" element={<Adminhome />} />
         <Route path="/addproject" element={<Addproject /> } />
+        <Route path="/addstudent" element={<Addstudent />} />
       </Routes>
     </div>
   );
