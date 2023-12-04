@@ -7,6 +7,7 @@ import Adminhome from "./Adminhome";
 import Addstudent from "./Addstudent";
 import { Route, Routes } from "react-router-dom";
 import Project from "./Project";
+import Addproject from "./Addproject";
 
 function App() {
   const [user, setUser] = useState({});
@@ -87,6 +88,7 @@ function App() {
         />
         <Route path="/project/:id" element={<Project />} />
         <Route path="/adminhome" element={<Adminhome />} />
+        <Route path="/addproject" element={<Addproject /> } />
       </Routes>
     </div>
   );

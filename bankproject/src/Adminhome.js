@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 function Adminhome() {
   const [click, setClick] = useState(false);
@@ -57,9 +58,9 @@ function Adminhome() {
               </button>
             </div>
           </div>
-          <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
+         <Link to='/addproject' > <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
             Add Student
-          </button>
+          </button></Link>
           {/* card section */}
           <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
             {/* cards */}

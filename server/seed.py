@@ -15,14 +15,9 @@ db.init_app(app)
 
 with app.app_context():
     
-    
-        
-    # StudentProject.query.delete()
-    # Student.query.delete()
-    # Cohort.query.delete()
-    # # Admin.query.delete()
-    # Project.query.delete()
-   
+    StudentProject.query.delete()
+    Student.query.delete()
+    Project.query.delete()
     
     studentss = []
     for i in range(10):
@@ -45,8 +40,8 @@ with app.app_context():
     db.session.add_all(studentprojects)
        
      
-    admin=Admin(name="john" , password_hash="john")
-    db.session.add(admin)
+    # admin=Admin(name="john" , password_hash="john")
+    # db.session.add(admin)
     
     
     # fake_date = fake.date_between(start_date='-7y', end_date='today')

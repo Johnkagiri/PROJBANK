@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login({ user, isloggedin, setUser, setIsloggedin }) {
+function Addproject() {
   const navigate = useNavigate();
 
   function handlelogin() {
@@ -12,11 +12,13 @@ function Login({ user, isloggedin, setUser, setIsloggedin }) {
   const formik = useFormik({
     initialValues: {
       name: "",
-      password: "",
+      description: "",
+      githublink: "",
+      languages: "",
     },
     onSubmit: async (values) => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/adminlogin", {
+        const response = await fetch("http://127.0.0.1:8000/project", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -27,12 +29,7 @@ function Login({ user, isloggedin, setUser, setIsloggedin }) {
         if (response.status === 200) {
           console.log("Login successful");
           const data = await response.json();
-          setUser(data);
-          if (user) {
-            setIsloggedin(true);
-            console.log(user);
-            handlelogin();
-          }
+          console.log(data);
         } else {
           console.log("Login failed");
           // Handle unsuccessful login
@@ -61,7 +58,7 @@ function Login({ user, isloggedin, setUser, setIsloggedin }) {
           </Link>
         </div>
         <div className="  bg-slate-200  w-2/3 sm:w-1/3 m-auto h-screen p-3 flex flex-col items-center justify-start mt-9">
-          <h3 className="">Admin Login</h3>
+          <h3 className="">Project</h3>
           <form onSubmit={formik.handleSubmit} className=" mt-7 ">
             <label className="text-gray-600">Name</label>
             <input
@@ -71,32 +68,42 @@ function Login({ user, isloggedin, setUser, setIsloggedin }) {
               value={formik.values.name}
               className=" w-full bg-gray-300 text-sm text-slate-700 "
             />
-            <label className="text-gray-600 ">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
+            <label className="text-gray-600 ">Description</label>
+            <textarea
+              type="description"
+              id="description"
+              name="description"
               onChange={formik.handleChange}
-              value={formik.values.password}
+              value={formik.values.description}
               className=" w-full bg-gray-300 text-sm text-slate-700 "
             />
-            <p className="text-blue-500 text-xs mt-2 text-right ">
-              Forgot password?
-            </p>
+            <label className="text-gray-600">Githublink</label>
+            <input
+              id="githublink"
+              name="githublink"
+              onChange={formik.handleChange}
+              value={formik.values.githublink}
+              className=" w-full bg-gray-300 text-sm text-slate-700 "
+            />
+            <label className="text-gray-600">Language</label>
+            <input
+              id="languages"
+              name="languages"
+              onChange={formik.handleChange}
+              value={formik.values.languages}
+              className=" w-full bg-gray-300 text-sm text-slate-700 "
+            />
             <button
               type="submit"
               className="mt-3 w-full bg-blue-500 text-white "
             >
-              Login
+              ADD
             </button>
           </form>
-          <button className="mt-7 text-blue-500 text-xs ">
-            Change password
-          </button>
         </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Addproject;
