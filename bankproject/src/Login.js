@@ -2,12 +2,10 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login({ user, isloggedin, setUser, setIsloggedin }) {
+function Login({ user, isloggedin, setUser, setIsloggedin, setIsstudent, setIsadmin  }) {
   const navigate = useNavigate();
 
-  function handlelogin() {
-    navigate("/adminhome");
-  }
+  
 
   const formik = useFormik({
     initialValues: {
@@ -30,8 +28,10 @@ function Login({ user, isloggedin, setUser, setIsloggedin }) {
           setUser(data);
           if (user) {
             setIsloggedin(true);
+            setIsstudent(false);
+            setIsadmin(true);
             console.log(user);
-            handlelogin();
+            navigate("/adminhome");
           }
         } else {
           console.log("Login failed");

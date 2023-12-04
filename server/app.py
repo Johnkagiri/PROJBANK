@@ -162,7 +162,27 @@ class Cohortres(Resource):
     def get(self):
         allcohort = Cohort.query.all()
         return jsonify([cohort.to_dict() for cohort in allcohort] )
+    
+    def post(self):
+        data = request.get_json()
+
+        name = data.get('name')
+        startdate = data.get('githublink') 
+        enddate = data.get('languages')
+
+        cohortexist= Cohort.query.filter(Cohort.name==name).first()
+
+        if cohortexist:
+            return {'message':'project exists'}
+        newcohort = Project(name=name, start_date=startdate, end_date=enddate) 
+        db.session.add(newcohort)
+        db.session.commit()
+        response = make_response(jsonify(newcohort.to_dict()))
+        response.content_type='application/json'
+        return response
+
 api.add_resource(Cohortres, '/cohort', endpoint='cohort')
+    
 
 class Adminres(Resource):
     def get(self):

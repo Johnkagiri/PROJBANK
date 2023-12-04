@@ -2,8 +2,19 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Projects from "./Projects";
 
-function Home({ projects, isloggedin, user, setUser, setIsloggedin }) {
+function Home({
+  projects,
+  isloggedin,
+  user,
+  setUser,
+  setIsloggedin,
+  isadmin,
+  isstudent,
+  setIsstudent,
+  setIsadmin,
+}) {
   const [click, setClick] = useState(false);
 
   // console.log(projects);
@@ -15,9 +26,11 @@ function Home({ projects, isloggedin, user, setUser, setIsloggedin }) {
     }
   );
 
-  function handlelogout(){
-     setIsloggedin(false)
-     setUser(null)
+  function handlelogout() {
+    setIsloggedin(false);
+    setIsstudent(false);
+    setIsadmin(false);
+    setUser(null);
   }
 
   return (
@@ -46,7 +59,10 @@ function Home({ projects, isloggedin, user, setUser, setIsloggedin }) {
               )}
             </div>
             {/* login logout buttons */}
-            <div onClick={handlelogout}  className="  h-5   text-center text-sm flex flex-row justify-center ">
+            <div
+              onClick={handlelogout}
+              className="  h-5   text-center text-sm flex flex-row justify-center "
+            >
               {isloggedin ? (
                 <Link to="/">
                   <p className="  mr-4 bg-blue-300 p-0.5 h-6 rounded-md ">
@@ -89,36 +105,34 @@ function Home({ projects, isloggedin, user, setUser, setIsloggedin }) {
               </button>
             </div>
           </div>
-          <button className="float-right bg-blue-600 mt-8   rounded-md p-1 text-sm ">
-            Add
-          </button>
+          {isadmin ? (
+            <>
+              {" "}
+              <Link to="/addcohort">
+                {" "}
+                <button className="float-right bg-blue-400 mt-8  ml-1 rounded-md p-1 text-sm ">
+                  Add Cohort
+                </button>
+              </Link>
+              <Link to="/addstudent">
+                {" "}
+                <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
+                  Add Student
+                </button>
+              </Link>{" "}
+            </>
+          ) : isstudent ? (
+            <Link to='/addproject' ><button className="float-right bg-blue-600 mt-8   rounded-md p-1 text-sm ">
+              Add project
+            </button></Link>
+          ) : null}
 
           {/* card section */}
-          <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
-            {projects.length ? (
-              projects.map((project) => (
-                <Link to={`/project/${project.id}`}>
-                  {" "}
-                  <div
-                    className="w-full bg-slate-300 h-32 rounded-md pt-3"
-                    key={project.id}
-                  >
-                    <h3 className=" text-black  ">{project.name}</h3>
-                    <p className="text-sm text-slate-600">
-                      {project.description}
-                    </p>
-                    <p className="text-sm text-slate-600">
-                      {" "}
-                      {project.githublink}
-                    </p>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p>No projects available</p>
-            )}
-          </div>
-
+          <Projects
+            projects={projects}
+            isstudent={isstudent}
+            isadmin={isadmin}
+          />
           {/* menu section */}
           <div className={sidemenu}>
             <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Projects from "./Projects";
 
-function Adminhome() {
+function Adminhome({projects, isadmin, isstudent}) {
   const [click, setClick] = useState(false);
 
   const sidemenu = classNames(
@@ -58,57 +59,15 @@ function Adminhome() {
               </button>
             </div>
           </div>
-         <Link to='/addstudent' > <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
+         <Link to='/addcohort' > <button className="float-right bg-blue-400 mt-8  ml-1 rounded-md p-1 text-sm ">
+            Add Cohort
+          </button></Link>
+          <Link to='/addstudent' > <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
             Add Student
           </button></Link>
+          
           {/* card section */}
-          <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
-            {/* cards */}
-            <div className="w-full  bg-slate-300 h-full rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-              <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
-                Add
-              </button>
-              <button className="float-right bg-red-400 mt-8   rounded-md p-1 text-sm ">
-                Decline
-              </button>
-            </div>
-            <div className="w-full  bg-slate-300 h-full rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-              <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
-                Add
-              </button>
-              <button className="float-right bg-red-400 mt-8   rounded-md p-1 text-sm ">
-                Decline
-              </button>
-            </div>
-            <div className="w-full  bg-slate-300 h-full rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-              <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
-                Add
-              </button>
-              <button className="float-right bg-red-400 mt-8   rounded-md p-1 text-sm ">
-                Decline
-              </button>
-            </div>
-            <div className="w-full bg-slate-300 h-full rounded-md pt-3">
-              <h3>Project name</h3>
-              <p>Project description</p>
-              <p>authors</p>
-              <button className="float-right bg-blue-400 mt-8   rounded-md p-1 text-sm ">
-                Add
-              </button>
-              <button className="float-right bg-red-400 mt-8   rounded-md p-1 text-sm ">
-                Decline
-              </button>
-            </div>
-          </div>
+          <Projects projects={projects} isstudent={isstudent} isadmin={isadmin} />
 
           {/* menu section */}
           <div className={sidemenu}>

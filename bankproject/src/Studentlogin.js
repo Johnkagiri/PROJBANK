@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
-function Studentlogin({ setisloggedin, user, setUser }) {
+function Studentlogin({
+  setisloggedin,
+  user,
+  setUser,
+  setIsstudent,
+  setIsadmin,
+}) {
   const [refresh, setRefresh] = useState(false);
   const [formdata, setFormdata] = useState({
     email: "",
     password: "",
   });
-  const navigate=useNavigate()
-
-
+  const navigate = useNavigate();
 
   function handleChange(event) {
     const name = event.target.name;
@@ -41,8 +45,10 @@ function Studentlogin({ setisloggedin, user, setUser }) {
         const data = await loginResponse.json();
 
         setUser(data);
-        setisloggedin(true)
-        navigate('/')
+        setisloggedin(true);
+        setIsstudent(true);
+        setIsadmin(false);
+        navigate("/");
         console.log(user);
         // // Fetch session after a successful login
         // const sessionResponse = await fetch("http://127.0.0.1:8000/session", {

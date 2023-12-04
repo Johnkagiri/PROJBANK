@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
-function Addproject() {
+function Addcohort() {
   const navigate = useNavigate();
 
   function handlelogin() {
@@ -12,13 +12,13 @@ function Addproject() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      description: "",
-      githublink: "",
-      languages: "",
+      startdate: "",
+      enddate: "",
+     
     },
     onSubmit: async (values) => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/project", {
+        const response = await fetch("http://127.0.0.1:8000/cohort", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -51,9 +51,9 @@ function Addproject() {
               logo
             </h1>
           </Link>
-          <Link to="/adminlogin">
+          <Link to="/studentlogin">
             <button className="bg-blue-400 h-3/4  mt-2 p-1 text-sm text-white rounded-lg ">
-              Login as Admin
+              Login as Student
             </button>
           </Link>
         </div>
@@ -68,31 +68,25 @@ function Addproject() {
               value={formik.values.name}
               className=" w-full bg-gray-300 text-sm text-slate-700 "
             />
-            <label className="text-gray-600 ">Description</label>
-            <textarea
-              type="description"
-              id="description"
-              name="description"
+            <label className="text-gray-600 ">Start date</label>
+            <input
+              
+              id="startdate"
+              name="startdate"
               onChange={formik.handleChange}
-              value={formik.values.description}
+              value={formik.values.startdate}
               className=" w-full bg-gray-300 text-sm text-slate-700 "
             />
-            <label className="text-gray-600">Githublink</label>
+            <label className="text-gray-600">End date</label>
             <input
-              id="githublink"
-              name="githublink"
+              id="enddate"
+              name="enddate"
               onChange={formik.handleChange}
-              value={formik.values.githublink}
+              value={formik.values.enddate}
               className=" w-full bg-gray-300 text-sm text-slate-700 "
             />
             <label className="text-gray-600">Language</label>
-            <input
-              id="languages"
-              name="languages"
-              onChange={formik.handleChange}
-              value={formik.values.languages}
-              className=" w-full bg-gray-300 text-sm text-slate-700 "
-            />
+
             <button
               type="submit"
               className="mt-3 w-full bg-blue-500 text-white "
@@ -106,4 +100,4 @@ function Addproject() {
   );
 }
 
-export default Addproject;
+export default Addcohort;

@@ -8,11 +8,14 @@ import Addstudent from "./Addstudent";
 import { Route, Routes } from "react-router-dom";
 import Project from "./Project";
 import Addproject from "./Addproject";
+import Addcohort from "./Addcohort";
 
 function App() {
   const [user, setUser] = useState({});
   const [projects, setProjects] = useState([]);
   const [isloggedin, setIsloggedin] = useState(false);
+  const [isadmin, setIsadmin] = useState(false);
+  const [isstudent, setIsstudent] = useState(false);
 
   // useEffect(() => {
   //   fetch("http://127.0.0.1:8000/session")
@@ -62,6 +65,10 @@ function App() {
               user={user}
               setIsloggedin={setIsloggedin}
               setUser={setUser}
+              isstudent={isstudent}
+              isadmin={isadmin}
+              setIsadmin={setIsadmin}
+              setIsstudent={setIsstudent}
             />
           }
         />
@@ -73,6 +80,8 @@ function App() {
               isloggedin={isloggedin}
               setIsloggedin={setIsloggedin}
               setUser={setUser}
+              setIsstudent={setIsstudent}
+              setIsadmin={setIsadmin}
             />
           }
         />
@@ -83,13 +92,25 @@ function App() {
               setisloggedin={setIsloggedin}
               user={user}
               setUser={setUser}
+              setIsstudent={setIsstudent}
+              setIsadmin={setIsadmin}
             />
           }
         />
         <Route path="/project/:id" element={<Project />} />
-        <Route path="/adminhome" element={<Adminhome />} />
-        <Route path="/addproject" element={<Addproject /> } />
+        <Route
+          path="/adminhome"
+          element={
+            <Adminhome
+              projects={projects}
+              isstudent={isstudent}
+              isadmin={isadmin}
+            />
+          }
+        />
+        <Route path="/addproject" element={<Addproject />} />
         <Route path="/addstudent" element={<Addstudent />} />
+        <Route path="/addcohort" element={<Addcohort />} />
       </Routes>
     </div>
   );
