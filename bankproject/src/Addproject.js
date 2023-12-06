@@ -2,23 +2,27 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
-function Addproject() {
+function Addproject({user}) {
   const navigate = useNavigate();
+
+
+  const userid= user.id
 
   function handlelogin() {
     navigate("/adminhome");
   }
-
+  // console.log(user)
   const formik = useFormik({
     initialValues: {
       name: "",
       description: "",
       githublink: "",
       languages: "",
+      studentId:userid
     },
     onSubmit: async (values) => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/project", {
+        const response = await fetch("http://127.0.0.1:8000/request", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -27,7 +31,7 @@ function Addproject() {
         });
 
         if (response.status === 200) {
-          console.log("Login successful");
+          console.log("Project added sucessfully");
           const data = await response.json();
           console.log(data);
         } else {

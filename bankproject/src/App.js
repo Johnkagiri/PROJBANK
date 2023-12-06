@@ -13,6 +13,7 @@ import Addcohort from "./Addcohort";
 function App() {
   const [user, setUser] = useState({});
   const [projects, setProjects] = useState([]);
+  const [request, setRequest] = useState([]);
   const [isloggedin, setIsloggedin] = useState(false);
   const [isadmin, setIsadmin] = useState(false);
   const [isstudent, setIsstudent] = useState(false);
@@ -48,6 +49,15 @@ function App() {
     fetchData();
   }, []);
   // console.log(projects);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/request")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRequest(data)
+      });
+  }, []);
   return (
     <div className="text-black-500">
       {/* <Login /> */}
@@ -69,6 +79,7 @@ function App() {
               isadmin={isadmin}
               setIsadmin={setIsadmin}
               setIsstudent={setIsstudent}
+              request={request}
             />
           }
         />
@@ -108,7 +119,7 @@ function App() {
             />
           }
         />
-        <Route path="/addproject" element={<Addproject />} />
+        <Route path="/addproject" element={<Addproject user={user} />} />
         <Route path="/addstudent" element={<Addstudent />} />
         <Route path="/addcohort" element={<Addcohort />} />
       </Routes>

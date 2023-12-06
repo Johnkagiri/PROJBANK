@@ -30,7 +30,7 @@ function Login({ user, isloggedin, setUser, setIsloggedin, setIsstudent, setIsad
             setIsloggedin(true);
             setIsstudent(false);
             setIsadmin(true);
-            console.log(user);
+            // console.log(user);
             navigate("/");
           }
         } else {

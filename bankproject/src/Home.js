@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Projects from "./Projects";
+import Requests from "./Requests";
 
 function Home({
   projects,
@@ -14,8 +15,10 @@ function Home({
   isstudent,
   setIsstudent,
   setIsadmin,
+  request
 }) {
   const [click, setClick] = useState(false);
+  const [isrequest, setIsrequest] = useState(false)
 
   // console.log(projects);
   const sidemenu = classNames(
@@ -31,6 +34,13 @@ function Home({
     setIsstudent(false);
     setIsadmin(false);
     setUser(null);
+    setIsrequest(false)
+  }
+  function handlerequest(){
+    setIsrequest(true)
+  }
+  function handleadd(){
+
   }
 
   return (
@@ -105,6 +115,7 @@ function Home({
               </button>
             </div>
           </div>
+          {/* add cohort projectand student button */}
           {isadmin ? (
             <>
               {" "}
@@ -130,11 +141,11 @@ function Home({
           ) : null}
 
           {/* card section */}
-          <Projects
+          {isrequest? <Requests request={request} />:<Projects
             projects={projects}
             isstudent={isstudent}
             isadmin={isadmin}
-          />
+          /> }
           {/* menu section */}
           <div className={sidemenu}>
             <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">
@@ -147,7 +158,7 @@ function Home({
                 <h4 className="mt-3">Cohort</h4>
                 <h4 className="mt-3">People</h4>
                 <h4 className="mt-3">Languages</h4>
-                <h4 className="mt-3">Requests</h4>
+                <h4 onClick={handlerequest} className="mt-3">Requests</h4>
               </div>
             ) : isstudent ? (
               <div className="mt-20 text-white text-center ">

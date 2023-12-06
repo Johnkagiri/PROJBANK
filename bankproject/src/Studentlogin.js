@@ -49,7 +49,7 @@ function Studentlogin({
         setIsstudent(true);
         setIsadmin(false);
         navigate("/");
-        console.log(user);
+        // console.log(user);
         // // Fetch session after a successful login
         // const sessionResponse = await fetch("http://127.0.0.1:8000/session", {
         //   method: "GET",

@@ -234,7 +234,7 @@ class Requestres(Resource):
 
         if reqexist:
             return {'message':'project exists'}
-        newreq = Project(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid  ) 
+        newreq = Request(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid  ) 
         db.session.add(newreq)
         db.session.commit()
         response = make_response(jsonify(newreq.to_dict()))
@@ -244,6 +244,15 @@ class Requestres(Resource):
 api.add_resource(Requestres, '/request', endpoint='request') 
 
 class RequestByid(Resource):
+    def get(self, id):
+        req=Request.query.filter_by(id=id).first()
+
+        if not req:
+            return {'message': 'request not found'},404
+        
+        return make_response(jsonify(req.to_dict()),200)
+
+
     def delete(self, id):
         req=Request.query.filter_by(id=id).first()
 
@@ -259,3 +268,4 @@ api.add_resource(RequestByid,'/request/<int:id>', endpoint='requestbyid' )
 
 if __name__=='__main__':
     app.run(debug=True, port=5000)
+
