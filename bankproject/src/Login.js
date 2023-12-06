@@ -31,7 +31,7 @@ function Login({ user, isloggedin, setUser, setIsloggedin, setIsstudent, setIsad
             setIsstudent(false);
             setIsadmin(true);
             console.log(user);
-            navigate("/adminhome");
+            navigate("/");
           }
         } else {
           console.log("Login failed");

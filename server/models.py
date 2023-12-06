@@ -9,13 +9,15 @@ bcrypt = Bcrypt()
 
 class Student(db.Model, SerializerMixin ):
     __tablename__='students'
-    serialize_rules = ('-studentproject.student', '-cohort.student', )
+    serialize_rules = ('-studentproject.student', '-cohort.student', '-project.student', '-request.student',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     email = db.Column(db.String(120), unique=True)
     _password_hash = db.Column(db.String)
     
+    request=db.relationship('Request', backref='student')
+    project=db.relationship('Project', backref='student')
     studentproject= db.relationship('StudentProject', backref='student')
     cohort_id = db.Column(db.Integer, db.ForeignKey('cohorts.id'))
 
@@ -35,7 +37,7 @@ class Student(db.Model, SerializerMixin ):
 
 class Project(db.Model, SerializerMixin):
     __tablename__='projects'
-    serialize_rules=('-studentproject.project',)    
+    serialize_rules=('-studentproject.project', '-student.project' )    
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -43,6 +45,7 @@ class Project(db.Model, SerializerMixin):
     githublink = db.Column(db.String) 
     languages = db.Column(db.String)
 
+    student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
     studentproject= db.relationship('StudentProject', backref='project')
 
 class Cohort(db.Model, SerializerMixin):
@@ -88,5 +91,22 @@ class StudentProject(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
     project_id = db.Column(db.Integer(), db.ForeignKey('projects.id'))
+
+class Request(db.Model, SerializerMixin):
+    __tablename__='request'
+    serialize_rules = ('-student.request', )
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    description = db.Column(db.String)
+    githublink = db.Column(db.String) 
+    languages = db.Column(db.String)
+
+    student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
+
+
+
+    
+     
 
 

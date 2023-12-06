@@ -122,9 +122,11 @@ function Home({
               </Link>{" "}
             </>
           ) : isstudent ? (
-            <Link to='/addproject' ><button className="float-right bg-blue-600 mt-8   rounded-md p-1 text-sm ">
-              Add project
-            </button></Link>
+            <Link to="/addproject">
+              <button className="float-right bg-blue-600 mt-8   rounded-md p-1 text-sm ">
+                Add project
+              </button>
+            </Link>
           ) : null}
 
           {/* card section */}
@@ -138,13 +140,29 @@ function Home({
             <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">
               <h2>LOGO</h2>
             </div>
-            <div className="mt-20 text-white text-center ">
-              <h4 className="mt-3">Discover</h4>
-              <h4 className="mt-3">Projects</h4>
-              <h4 className="mt-3">Cohort</h4>
-              <h4 className="mt-3">People</h4>
-              <h4 className="mt-3">Languages</h4>
-            </div>
+            {isadmin ? (
+              <div className="mt-20 text-white text-center ">
+                <h4 className="mt-3">Discover</h4>
+                <h4 className="mt-3">Projects</h4>
+                <h4 className="mt-3">Cohort</h4>
+                <h4 className="mt-3">People</h4>
+                <h4 className="mt-3">Languages</h4>
+                <h4 className="mt-3">Requests</h4>
+              </div>
+            ) : isstudent ? (
+              <div className="mt-20 text-white text-center ">
+                <h4 className="mt-3">Discover</h4>
+                <h4 className="mt-3">Projects</h4>
+                <h4 className="mt-3">Cohort</h4>
+                <h4 className="mt-3">Languages</h4>
+              </div>
+            ) : (
+              <div className="mt-20 text-white text-center ">
+                <h4 className="mt-3">Discover</h4>
+                <h4 className="mt-3">Projects</h4>
+                <h4 className="mt-3">About</h4>
+              </div>
+            )}
           </div>
         </div>
       </div>

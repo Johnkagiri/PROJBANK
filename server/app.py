@@ -116,12 +116,13 @@ class Projectres(Resource):
         description = data.get('description')
         githublink = data.get('githublink') 
         languages = data.get('languages')
+        studentid = data.get('studentId')
 
         projexist= Project.query.filter(Project.name==name).first()
 
         if projexist:
             return {'message':'project exists'}
-        newproj = Project(name=name, description=description, githublink=githublink, languages=languages) 
+        newproj = Project(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid ) 
         db.session.add(newproj)
         db.session.commit()
         response = make_response(jsonify(newproj.to_dict()))
@@ -214,6 +215,46 @@ class Logout(Resource):
             return {"error": "User must be logged in"}
 
 api.add_resource(Logout, '/logout', endpoint='logout')
+
+class Requestres(Resource):
+    def get(self):
+        allrequest = Request.query.all()
+        return make_response(jsonify([request.to_dict() for request in allrequest ]),200)
+    
+    def post(self):
+        data = request.get_json()
+
+        name = data.get('name')
+        description = data.get('description')
+        githublink = data.get('githublink') 
+        languages = data.get('languages')
+        studentid = data.get('studentId')
+
+        reqexist= Request.query.filter(Project.name==name).first()
+
+        if reqexist:
+            return {'message':'project exists'}
+        newreq = Project(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid  ) 
+        db.session.add(newreq)
+        db.session.commit()
+        response = make_response(jsonify(newreq.to_dict()))
+        response.content_type='application/json'
+        return response
+    
+api.add_resource(Requestres, '/request', endpoint='request') 
+
+class RequestByid(Resource):
+    def delete(self, id):
+        req=Request.query.filter_by(id=id).first()
+
+        if not req:
+            return {'message': 'request not found'},404
+
+        db.session.delete(req)
+        db.session.commit()
+
+        return {'message': 'deleted succesfully'}
+api.add_resource(RequestByid,'/request/<int:id>', endpoint='requestbyid' )
 
 
 if __name__=='__main__':
