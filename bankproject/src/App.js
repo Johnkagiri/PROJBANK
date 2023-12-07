@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import Project from "./Project";
 import Addproject from "./Addproject";
 import Addcohort from "./Addcohort";
+import Requestproj from "./Requestproj";
 
 function App() {
   const [user, setUser] = useState({});
@@ -122,6 +123,7 @@ function App() {
         <Route path="/addproject" element={<Addproject user={user} />} />
         <Route path="/addstudent" element={<Addstudent />} />
         <Route path="/addcohort" element={<Addcohort />} />
+        <Route path="/request/:id" element={<Requestproj /> } />
       </Routes>
     </div>
   );

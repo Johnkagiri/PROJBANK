@@ -3,9 +3,10 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useParams } from "react-router-dom";
 
-function Project() {
+function Requestproj() {
   const [click, setClick] = useState(false);
-  const [project, setProject] = useState({});
+  const [requestproj, setRequestproj] = useState({});
+  const [admin, setAdmin] = useState({})
 
   const { id } = useParams();
   const sidemenu = classNames(
@@ -16,12 +17,42 @@ function Project() {
     }
   );
 
+  
+
+
+// fetch specific request to display
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/project/${id}`)
+    fetch(`http://127.0.0.1:8000/request/${id}`)
       .then((res) => res.json())
-      .then((data) => setProject(data));
+      .then((data) => setRequestproj(data));
   }, [id]);
-  // console.log(project);
+  console.log(requestproj.name);
+
+// if (requestproj){
+  function handleadd() {
+    console.log(requestproj.languages);
+    const values={
+     name: requestproj.name,
+     description: requestproj.description,
+     githublink: requestproj.githublink,
+     languages: requestproj.languages,
+     studentId: requestproj.student_id
+    }
+ 
+     fetch(`http://127.0.0.1:8000/project`, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(values),
+     })
+       .then((res) => res.json())
+       .then((data) => {
+        console.log('project added by admin')
+        console.log(data);
+       });
+   }
+
 
   return (
     <div>
@@ -64,7 +95,19 @@ function Project() {
 
           {/* card section */}
           <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
-            project here
+            <h1>{requestproj.name}</h1>
+            {requestproj?<>
+                 <button className="float-right bg-red-400 mr-4 rounded-md p-1 text-sm ">
+              Decline
+            </button>
+            <button
+              onClick={handleadd}
+              className="float-right bg-blue-400 mr-4 rounded-md p-1 text-sm "
+            >
+              Accept
+            </button>       
+            </>:null}
+
           </div>
 
           {/* menu section */}
@@ -86,4 +129,4 @@ function Project() {
   );
 }
 
-export default Project;
+export default Requestproj;
