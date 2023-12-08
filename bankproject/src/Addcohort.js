@@ -2,19 +2,15 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
-function Addcohort() {
+function Addcohort({ user }) {
   const navigate = useNavigate();
-
-  function handlelogin() {
-    navigate("/adminhome");
-  }
-
+  console.log(user.id);
   const formik = useFormik({
     initialValues: {
       name: "",
       startdate: "",
       enddate: "",
-     
+      adminId: user.id,
     },
     onSubmit: async (values) => {
       try {
@@ -58,7 +54,7 @@ function Addcohort() {
           </Link>
         </div>
         <div className="  bg-slate-200  w-2/3 sm:w-1/3 m-auto h-screen p-3 flex flex-col items-center justify-start mt-9">
-          <h3 className="">Project</h3>
+          <h3 className="">Cohort</h3>
           <form onSubmit={formik.handleSubmit} className=" mt-7 ">
             <label className="text-gray-600">Name</label>
             <input
@@ -70,9 +66,9 @@ function Addcohort() {
             />
             <label className="text-gray-600 ">Start date</label>
             <input
-              
               id="startdate"
               name="startdate"
+              type="date"
               onChange={formik.handleChange}
               value={formik.values.startdate}
               className=" w-full bg-gray-300 text-sm text-slate-700 "
@@ -81,11 +77,11 @@ function Addcohort() {
             <input
               id="enddate"
               name="enddate"
+              type="date" // Set the type to "date"
               onChange={formik.handleChange}
               value={formik.values.enddate}
-              className=" w-full bg-gray-300 text-sm text-slate-700 "
+              className="w-full bg-gray-300 text-sm text-slate-700"
             />
-            <label className="text-gray-600">Language</label>
 
             <button
               type="submit"

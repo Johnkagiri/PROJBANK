@@ -1,15 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Requests({ request }) {
+function Requests({ request,user }) {
   
+    const adminids = [];
+    user.cohort.map((data) => {
+      adminids.push(data.id);
+      
+    });
 
+    // console.log(request)
+
+    const filterreq= request.filter((data)=>
+        adminids.includes(data.student.cohort.id)
+       ) 
+    console.log(filterreq);  
 
 
   return (
     <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
-      {request.length ? (
-        request.map((requests) => (
+      {filterreq.length ? (
+        filterreq.map((requests) => (
           <Link to={`/request/${requests.id}`}>
             {" "}
             <div

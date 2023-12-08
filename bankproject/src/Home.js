@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import classNames from "classnames";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Projects from "./Projects";
 import Requests from "./Requests";
+import Menu from "./Menu";
 
 function Home({
   projects,
@@ -15,33 +16,22 @@ function Home({
   isstudent,
   setIsstudent,
   setIsadmin,
-  request
+  request,
 }) {
   const [click, setClick] = useState(false);
-  const [isrequest, setIsrequest] = useState(false)
+  const [isrequest, setIsrequest] = useState(false);
 
   // console.log(projects);
-  const sidemenu = classNames(
-    " w-1/2 sm:w-1/4 h-screen  bg-slate-700 fixed top-0 z-10 sm:left-0 rounded-e-md text-center ",
-    {
-      "left-0": click,
-      "left-[-400px]": !click,
-    }
-  );
 
   function handlelogout() {
     setIsloggedin(false);
     setIsstudent(false);
     setIsadmin(false);
     setUser(null);
-    setIsrequest(false)
+    setIsrequest(false);
   }
-  function handlerequest(){
-    setIsrequest(true)
-  }
-  function handleadd(){
 
-  }
+  function handleadd() {}
 
   return (
     <div>
@@ -115,7 +105,7 @@ function Home({
               </button>
             </div>
           </div>
-          {/* add cohort projectand student button */}
+          {/* add cohort project and student button */}
           {isadmin ? (
             <>
               {" "}
@@ -141,40 +131,22 @@ function Home({
           ) : null}
 
           {/* card section */}
-          {isrequest? <Requests request={request} />:<Projects
-            projects={projects}
-            isstudent={isstudent}
-            isadmin={isadmin}
-          /> }
+          {isrequest ? (
+            <Requests request={request} user={user} />
+          ) : (
+            <Projects
+              projects={projects}
+              isstudent={isstudent}
+              isadmin={isadmin}
+            />
+          )}
           {/* menu section */}
-          <div className={sidemenu}>
-            <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">
-              <h2>LOGO</h2>
-            </div>
-            {isadmin ? (
-              <div className="mt-20 text-white text-center ">
-                <h4 className="mt-3">Discover</h4>
-                <h4 className="mt-3">Projects</h4>
-                <h4 className="mt-3">Cohort</h4>
-                <h4 className="mt-3">People</h4>
-                <h4 className="mt-3">Languages</h4>
-                <h4 onClick={handlerequest} className="mt-3">Requests</h4>
-              </div>
-            ) : isstudent ? (
-              <div className="mt-20 text-white text-center ">
-                <h4 className="mt-3">Discover</h4>
-                <h4 className="mt-3">Projects</h4>
-                <h4 className="mt-3">Cohort</h4>
-                <h4 className="mt-3">Languages</h4>
-              </div>
-            ) : (
-              <div className="mt-20 text-white text-center ">
-                <h4 className="mt-3">Discover</h4>
-                <h4 className="mt-3">Projects</h4>
-                <h4 className="mt-3">About</h4>
-              </div>
-            )}
-          </div>
+          <Menu
+            isadmin={isadmin}
+            isrequest={isrequest}
+            isstudent={isstudent}
+            setIsrequest={setIsrequest}
+          />
         </div>
       </div>
     </div>

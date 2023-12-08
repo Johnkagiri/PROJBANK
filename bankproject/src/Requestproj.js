@@ -16,9 +16,7 @@ function Requestproj() {
       "left-[-400px]": !click,
     }
   );
-
   
-
 
 // fetch specific request to display
   useEffect(() => {
@@ -52,7 +50,13 @@ function Requestproj() {
         console.log(data);
        });
    }
+   
 
+    //   console.log(requestproj)
+
+//    const filterreq= requestproj.filter((data)=>{
+//     adminids.includes(data.)
+//    })   
 
   return (
     <div>

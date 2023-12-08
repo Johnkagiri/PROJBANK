@@ -122,8 +122,8 @@ function App() {
         />
         <Route path="/addproject" element={<Addproject user={user} />} />
         <Route path="/addstudent" element={<Addstudent />} />
-        <Route path="/addcohort" element={<Addcohort />} />
-        <Route path="/request/:id" element={<Requestproj /> } />
+        <Route path="/addcohort" element={<Addcohort user={user} />} />
+        <Route path="/request/:id" element={<Requestproj user={user} /> } />
       </Routes>
     </div>
   );

@@ -168,14 +168,15 @@ class Cohortres(Resource):
         data = request.get_json()
 
         name = data.get('name')
-        startdate = data.get('githublink') 
-        enddate = data.get('languages')
+        startdate = data.get('startdate') 
+        enddate = data.get('enddate')
+        adminid = data.get('adminId')
 
         cohortexist= Cohort.query.filter(Cohort.name==name).first()
 
         if cohortexist:
             return {'message':'project exists'}
-        newcohort = Project(name=name, start_date=startdate, end_date=enddate) 
+        newcohort = Cohort(name=name, start_date=startdate, end_date=enddate, admin_id=adminid ) 
         db.session.add(newcohort)
         db.session.commit()
         response = make_response(jsonify(newcohort.to_dict()))
