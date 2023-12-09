@@ -59,7 +59,7 @@ class Cohort(db.Model, SerializerMixin):
 
 
     student = db.relationship('Student', backref='cohort')
-    admin_id = db.Column(db.Integer(), db.ForeignKey('admins.id'))
+    admin_id = db.Column(db.Integer(), db.ForeignKey('admins.id'),nullable=False)
 
 class Admin(db.Model, SerializerMixin):
     __tablename__='admins'

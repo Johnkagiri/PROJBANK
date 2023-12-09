@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useParams } from "react-router-dom";
+import Menu from "./Menu";
 
-function Project() {
+function Project({ isadmin, isstudent, refresh }) {
   const [click, setClick] = useState(false);
   const [project, setProject] = useState({});
+  const [isrequest, setIsrequest] = useState(false);
 
   const { id } = useParams();
   const sidemenu = classNames(
@@ -20,8 +22,10 @@ function Project() {
     fetch(`http://127.0.0.1:8000/project/${id}`)
       .then((res) => res.json())
       .then((data) => setProject(data));
-  }, [id]);
+  }, [id, refresh]);
   // console.log(project);
+
+
 
   return (
     <div>
@@ -68,18 +72,13 @@ function Project() {
           </div>
 
           {/* menu section */}
-          <div className={sidemenu}>
-            <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">
-              <h2>LOGO</h2>
-            </div>
-            <div className="mt-20 text-white text-center ">
-              <h4 className="mt-3">Discover</h4>
-              <h4 className="mt-3">Projects</h4>
-              <h4 className="mt-3">Cohort</h4>
-              <h4 className="mt-3">People</h4>
-              <h4 className="mt-3">Languages</h4>
-            </div>
-          </div>
+          
+          <Menu
+            isadmin={isadmin}
+            isrequest={isrequest}
+            isstudent={isstudent}
+            setIsrequest={setIsrequest}
+          />
         </div>
       </div>
     </div>

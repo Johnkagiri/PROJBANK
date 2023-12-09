@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Menu from "./Menu";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 
-function Requestproj() {
+function Requestproj({ isadmin, isstudent, refresh, setRefresh }) {
   const [click, setClick] = useState(false);
   const [requestproj, setRequestproj] = useState({});
-  const [admin, setAdmin] = useState({})
+  const [admin, setAdmin] = useState({});
+  const [isrequest, setIsrequest] = useState(false);
 
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const sidemenu = classNames(
     " w-1/2 sm:w-1/4 h-screen bg-slate-700 absolute top-0 z-10 sm:left-0 rounded-e-md text-center ",
     {
@@ -16,9 +21,8 @@ function Requestproj() {
       "left-[-400px]": !click,
     }
   );
-  
 
-// fetch specific request to display
+  // fetch specific request to display
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/request/${id}`)
       .then((res) => res.json())
@@ -26,37 +30,37 @@ function Requestproj() {
   }, [id]);
   console.log(requestproj.name);
 
-// if (requestproj){
+  // if (requestproj){
   function handleadd() {
     console.log(requestproj.languages);
-    const values={
-     name: requestproj.name,
-     description: requestproj.description,
-     githublink: requestproj.githublink,
-     languages: requestproj.languages,
-     studentId: requestproj.student_id
-    }
- 
-     fetch(`http://127.0.0.1:8000/project`, {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify(values),
-     })
-       .then((res) => res.json())
-       .then((data) => {
-        console.log('project added by admin')
+    const values = {
+      name: requestproj.name,
+      description: requestproj.description,
+      githublink: requestproj.githublink,
+      languages: requestproj.languages,
+      studentId: requestproj.student_id,
+    };
+
+    fetch(`http://127.0.0.1:8000/project`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("project added by admin");
         console.log(data);
-       });
-   }
-   
-
-    //   console.log(requestproj)
-
-//    const filterreq= requestproj.filter((data)=>{
-//     adminids.includes(data.)
-//    })   
+        fetch(`http://127.0.0.1:8000/request/${id}`, { method: "DELETE" })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            setRefresh(!refresh);
+            enqueueSnackbar(data.message, { variant: "success" });
+          });
+      });
+  }
 
   return (
     <div>
@@ -98,35 +102,30 @@ function Requestproj() {
           </button>
 
           {/* card section */}
-          <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
+          <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 p-1 sm:grid-cols-1 text-center ">
             <h1>{requestproj.name}</h1>
-            {requestproj?<>
-                 <button className="float-right bg-red-400 mr-4 rounded-md p-1 text-sm ">
-              Decline
-            </button>
-            <button
-              onClick={handleadd}
-              className="float-right bg-blue-400 mr-4 rounded-md p-1 text-sm "
-            >
-              Accept
-            </button>       
-            </>:null}
-
+            {requestproj ? (
+              <>
+                <button className="float-right bg-red-400 mr-4 rounded-md p-1 text-sm ">
+                  Decline
+                </button>
+                <button
+                  onClick={handleadd}
+                  className="float-right bg-blue-400 mr-4 rounded-md p-1 text-sm "
+                >
+                  Accept
+                </button>
+              </>
+            ) : null}
           </div>
 
           {/* menu section */}
-          <div className={sidemenu}>
-            <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">
-              <h2>LOGO</h2>
-            </div>
-            <div className="mt-20 text-white text-center ">
-              <h4 className="mt-3">Discover</h4>
-              <h4 className="mt-3">Projects</h4>
-              <h4 className="mt-3">Cohort</h4>
-              <h4 className="mt-3">People</h4>
-              <h4 className="mt-3">Languages</h4>
-            </div>
-          </div>
+          <Menu
+            isadmin={isadmin}
+            isrequest={isrequest}
+            isstudent={isstudent}
+            setIsrequest={setIsrequest}
+          />
         </div>
       </div>
     </div>

@@ -8,8 +8,10 @@ function Studentlogin({
   setUser,
   setIsstudent,
   setIsadmin,
+  refresh,
+  setRefresh,
 }) {
-  const [refresh, setRefresh] = useState(false);
+  
   const [formdata, setFormdata] = useState({
     email: "",
     password: "",
@@ -48,6 +50,7 @@ function Studentlogin({
         setisloggedin(true);
         setIsstudent(true);
         setIsadmin(false);
+        setRefresh(!refresh);
         navigate("/");
         // console.log(user);
         // // Fetch session after a successful login

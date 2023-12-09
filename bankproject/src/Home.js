@@ -130,6 +130,12 @@ function Home({
             </Link>
           ) : null}
 
+          {isrequest ? (
+            <h1 className=" w-3/4 ml-auto text-center mt-8  ">Requests</h1>
+          ) : (
+            <h1 className=" w-3/4 ml-auto text-center mt-8 ">Projects</h1>
+          )}
+
           {/* card section */}
           {isrequest ? (
             <Requests request={request} user={user} />

@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login({ user, isloggedin, setUser, setIsloggedin, setIsstudent, setIsadmin  }) {
+function Login({ user, isloggedin, setUser, setIsloggedin, setIsstudent, setIsadmin, refresh, setRefresh }) {
   const navigate = useNavigate();
 
   
@@ -31,6 +31,7 @@ function Login({ user, isloggedin, setUser, setIsloggedin, setIsstudent, setIsad
             setIsstudent(false);
             setIsadmin(true);
             console.log(user);
+            setRefresh(!refresh)
             navigate("/");
           }
         } else {

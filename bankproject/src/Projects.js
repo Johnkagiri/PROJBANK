@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Projects({ projects, isadmin, isstudent }) {
   return (
-    <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
+    <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-8 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
       {projects.length ? (
         projects.map((project) => (
           <Link to={`/project/${project.id}`}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 
-function Addstudent() {
+function Addstudent({ setRefresh, refresh }) {
     const formik = useFormik({
         initialValues: {
           name:"",  
@@ -18,6 +18,7 @@ function Addstudent() {
           }).then((res) => {
             if (res.status == 200) {
               console.log("succesfull");
+              setRefresh(!refresh)
             }
           });
         },

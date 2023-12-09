@@ -1,12 +1,12 @@
 import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 
-function Addproject({user}) {
+function Addproject({ user, setRefresh, refresh }) {
   const navigate = useNavigate();
 
-
-  const userid= user.id
+  const userid = user.id;
 
   function handlelogin() {
     navigate("/adminhome");
@@ -18,7 +18,7 @@ function Addproject({user}) {
       description: "",
       githublink: "",
       languages: "",
-      studentId:userid
+      studentId: userid,
     },
     onSubmit: async (values) => {
       try {
@@ -34,6 +34,9 @@ function Addproject({user}) {
           console.log("Project added sucessfully");
           const data = await response.json();
           console.log(data);
+          enqueueSnackbar("Request send successfully", { variant: "success" });
+          navigate("/");
+          setRefresh(!refresh);
         } else {
           console.log("Login failed");
           // Handle unsuccessful login

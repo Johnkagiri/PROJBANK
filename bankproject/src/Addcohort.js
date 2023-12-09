@@ -1,8 +1,10 @@
 import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 
 function Addcohort({ user }) {
+  
   const navigate = useNavigate();
   console.log(user.id);
   const formik = useFormik({
@@ -24,6 +26,7 @@ function Addcohort({ user }) {
 
         if (response.status === 200) {
           console.log("Login successful");
+          enqueueSnackbar('Succesfully added cohort', {variant:'success'} )
           const data = await response.json();
           console.log(data);
         } else {

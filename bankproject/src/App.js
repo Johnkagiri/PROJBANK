@@ -18,6 +18,7 @@ function App() {
   const [isloggedin, setIsloggedin] = useState(false);
   const [isadmin, setIsadmin] = useState(false);
   const [isstudent, setIsstudent] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   // useEffect(() => {
   //   fetch("http://127.0.0.1:8000/session")
@@ -48,7 +49,7 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [refresh]);
   // console.log(projects);
 
   useEffect(() => {
@@ -56,9 +57,9 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setRequest(data)
+        setRequest(data);
       });
-  }, []);
+  }, [refresh]);
   return (
     <div className="text-black-500">
       {/* <Login /> */}
@@ -94,6 +95,8 @@ function App() {
               setUser={setUser}
               setIsstudent={setIsstudent}
               setIsadmin={setIsadmin}
+              setRefresh={setRefresh}
+              refresh={refresh}
             />
           }
         />
@@ -106,10 +109,21 @@ function App() {
               setUser={setUser}
               setIsstudent={setIsstudent}
               setIsadmin={setIsadmin}
+              setRefresh={setRefresh}
+              refresh={refresh}
             />
           }
         />
-        <Route path="/project/:id" element={<Project />} />
+        <Route
+          path="/project/:id"
+          element={
+            <Project
+              isadmin={isadmin}
+              isstudent={isstudent}
+              refresh={refresh}
+            />
+          }
+        />
         <Route
           path="/adminhome"
           element={
@@ -120,10 +134,29 @@ function App() {
             />
           }
         />
-        <Route path="/addproject" element={<Addproject user={user} />} />
-        <Route path="/addstudent" element={<Addstudent />} />
+        <Route
+          path="/addproject"
+          element={
+            <Addproject user={user} setRefresh={setRefresh} refresh={refresh} />
+          }
+        />
+        <Route
+          path="/addstudent"
+          element={<Addstudent setRefresh={setRefresh} refresh={refresh} />}
+        />
         <Route path="/addcohort" element={<Addcohort user={user} />} />
-        <Route path="/request/:id" element={<Requestproj user={user} /> } />
+        <Route
+          path="/request/:id"
+          element={
+            <Requestproj
+              user={user}
+              isadmin={isadmin}
+              isstudent={isstudent}
+              setRefresh={setRefresh}
+              refresh={refresh}
+            />
+          }
+        />
       </Routes>
     </div>
   );

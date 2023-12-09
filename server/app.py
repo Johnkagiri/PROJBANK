@@ -263,7 +263,7 @@ class RequestByid(Resource):
         db.session.delete(req)
         db.session.commit()
 
-        return {'message': 'deleted succesfully'}
+        return {'message': 'deleted  succesfully'}
 api.add_resource(RequestByid,'/request/<int:id>', endpoint='requestbyid' )
 
 
