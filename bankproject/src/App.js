@@ -10,6 +10,7 @@ import Project from "./Project";
 import Addproject from "./Addproject";
 import Addcohort from "./Addcohort";
 import Requestproj from "./Requestproj";
+import Cohorts from "./Cohorts";
 
 function App() {
   const [user, setUser] = useState({});
@@ -19,6 +20,7 @@ function App() {
   const [isadmin, setIsadmin] = useState(false);
   const [isstudent, setIsstudent] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [cohort, setCohort] = useState([]);
 
   // useEffect(() => {
   //   fetch("http://127.0.0.1:8000/session")
@@ -60,6 +62,16 @@ function App() {
         setRequest(data);
       });
   }, [refresh]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/cohort")
+      .then((res) => res.json())
+      .then((data) => {
+        setCohort(data);
+
+      });
+  });
+
   return (
     <div className="text-black-500">
       {/* <Login /> */}
@@ -145,6 +157,24 @@ function App() {
           element={<Addstudent setRefresh={setRefresh} refresh={refresh} />}
         />
         <Route path="/addcohort" element={<Addcohort user={user} />} />
+        <Route
+          path="/cohort"
+          element={
+            <Cohorts
+              projects={projects}
+              isloggedin={isloggedin}
+              user={user}
+              setIsloggedin={setIsloggedin}
+              setUser={setUser}
+              isstudent={isstudent}
+              isadmin={isadmin}
+              setIsadmin={setIsadmin}
+              setIsstudent={setIsstudent}
+              request={request}
+              cohort={cohort}              
+            />
+          }
+        />
         <Route
           path="/request/:id"
           element={

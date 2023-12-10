@@ -131,9 +131,9 @@ function Home({
           ) : null}
 
           {isrequest ? (
-            <h1 className=" w-3/4 ml-auto text-center mt-8  ">Requests</h1>
+            <h1 className="sm:w-3/4 ml-auto text-center mt-8  ">Requests</h1>
           ) : (
-            <h1 className=" w-3/4 ml-auto text-center mt-8 ">Projects</h1>
+            <h1 className=" sm:w-3/4 ml-auto text-center mt-8 ">Projects</h1>
           )}
 
           {/* card section */}

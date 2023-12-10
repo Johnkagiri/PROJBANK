@@ -34,7 +34,7 @@ function Menu({ isadmin, isstudent, isrequest, setIsrequest }) {
         <div className="mt-20 text-white text-center ">
           <h4 className="mt-3">Discover</h4>
           <h4 onClick={handleproject} className="mt-3"><Link to="/">Projects</Link></h4>
-          <h4 className="mt-3">Cohort</h4>
+          <Link to='/cohort' ><h4 className="mt-3">Cohort</h4></Link>
           <h4 className="mt-3">People</h4>
           <h4 className="mt-3">Languages</h4>
           
@@ -47,7 +47,7 @@ function Menu({ isadmin, isstudent, isrequest, setIsrequest }) {
         <div className="mt-20 text-white text-center ">
           <h4 className="mt-3">Discover</h4>
           <h4 className="mt-3">Projects</h4>
-          <h4 className="mt-3">Cohort</h4>
+          <Link to='/cohort' ><h4 className="mt-3">Cohort</h4></Link>
           <h4 className="mt-3">Languages</h4>
         </div>
       ) : (
