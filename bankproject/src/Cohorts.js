@@ -68,7 +68,7 @@ function Cohorts({
             ? cohort.map((data) => (
                 <div className=" bg-slate-50 h-32 border-y-2 border-solid border-slate-200 p-2 ">
                   <div className=" flex flex-row justify-between ">
-                    <h1 className=" text-blue-500 ml-20 ">Cohort here</h1>
+                    <h1 className=" text-blue-500 ml-20 ">{data.name}</h1>
                     <p className=" text-sm text-green-500 ">Active</p>
                   </div>
                   <div className=" ml-40 text-sm mt-1 ">
