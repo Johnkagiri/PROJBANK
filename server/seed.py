@@ -14,34 +14,39 @@ fake = Faker()
 db.init_app(app)
 
 with app.app_context():
-    
+  
     StudentProject.query.delete()
-    Student.query.delete()
     Project.query.delete()
-    
-    studentss = []
-    for i in range(10):
-        student = Student(name = fake.name(), email = fake.email(), password_hash = fake.name() )
-        studentss.append(student)
-    db.session.add_all(studentss)
-
-
-    projects = []
-    for i in range(15):
-        project = Project(name = fake.name(), description = fake.paragraph(2), githublink=fake.name(), languages=fake.name() )
-        projects.append(project)
-    db.session.add_all(projects)
+    Request.query.delete()
+    Student.query.delete()
+    Cohort.query.delete()
+    Admin.query.delete()    
     
 
-    studentprojects = []
-    for i in range(5):
-        studentproject = StudentProject(student=choice(studentss),project=choice(projects))
-        studentprojects.append(studentproject)
-    db.session.add_all(studentprojects)
+    
+    # studentss = []
+    # for i in range(10):
+    #     student = Student(name = fake.name(), email = fake.email(), password_hash = fake.name() )
+    #     studentss.append(student)
+    # db.session.add_all(studentss)
+
+
+    # projects = []
+    # for i in range(15):
+    #     project = Project(name = fake.name(), description = fake.paragraph(2), githublink=fake.name(), languages=fake.name() )
+    #     projects.append(project)
+    # db.session.add_all(projects)
+    
+
+    # studentprojects = []
+    # for i in range(5):
+    #     studentproject = StudentProject(student=choice(studentss),project=choice(projects))
+    #     studentprojects.append(studentproject)
+    # db.session.add_all(studentprojects)
        
      
-    # admin=Admin(name="john" , password_hash="john")
-    # db.session.add(admin)
+    admin=Admin(name="john" , password_hash="john")
+    db.session.add(admin)
     
     
     # fake_date = fake.date_between(start_date='-7y', end_date='today')
