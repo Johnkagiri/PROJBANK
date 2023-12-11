@@ -26,14 +26,14 @@ function Login({ user, isloggedin, setUser, setIsloggedin, setIsstudent, setIsad
           console.log("Login successful");
           const data = await response.json();
           setUser(data);
-          if (user) {
+          
             setIsloggedin(true);
             setIsstudent(false);
             setIsadmin(true);
             console.log(user);
-            setRefresh(!refresh)
+            // setRefresh(!refresh)
             navigate("/");
-          }
+          
         } else {
           console.log("Login failed");
           // Handle unsuccessful login

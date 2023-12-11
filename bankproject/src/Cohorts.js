@@ -16,6 +16,16 @@ function Cohorts({
   cohort,
 }) {
   const [isrequest, setIsrequest] = useState(false);
+  const [isspecific, setIsspesific] = useState(false);
+
+  // const admincohort = user.cohort.map((data)=>)
+
+  function handlemycohort() {
+    setIsspesific(true);
+  }
+  function handleallcohort() {
+    setIsspesific(false);
+  }
 
   return (
     <div>
@@ -47,14 +57,30 @@ function Cohorts({
             </svg>
           </div>
           <div className=" text-white flex flex-row justify-center ">
-            <p className=" mr-4 text-blue-500 ">My cohorts</p>
+            {isspecific ? (
+              <Link>
+                <p onClick={handleallcohort} className=" mr-4 text-blue-500 ">
+                  All cohorts
+                </p>
+              </Link>
+            ) : (
+              <Link>
+                <p onClick={handlemycohort} className=" mr-4 text-blue-500 ">
+                  My cohorts
+                </p>
+              </Link>
+            )}
             <h2 className=" rounded-full bg-slate-400 w-6 h-6 text-center ">
               p
             </h2>
           </div>
         </div>
         <div className=" text-center mb-3 w-full sm:w-3/4 h-10 top-10 sm:right-0 fixed sm:ml-auto bg-slate-200 opacity-80 ">
-          <h1 className=" mt-2 ">All Cohorts</h1>
+          {isspecific ? (
+            <h1 className=" mt-2 ">My Cohorts</h1>
+          ) : (
+            <h1 className=" mt-2 ">All Cohorts</h1>
+          )}
         </div>
 
         <Menu
@@ -64,11 +90,26 @@ function Cohorts({
           setIsrequest={setIsrequest}
         />
         <div className="mt-24 sm:ml-auto sm:w-3/4 p-2 ">
-          {cohort
-            ? cohort.map((data) => (
+          {isspecific && user
+            ? user.cohort.map((data) => (
                 <div className=" bg-slate-50 h-32 border-y-2 border-solid border-slate-200 p-2 ">
                   <div className=" flex flex-row justify-between ">
                     <h1 className=" text-blue-500 ml-20 ">{data.name}</h1>
+                    <p className=" text-sm text-green-500 ">Active</p>
+                  </div>
+                  <div className=" ml-40 text-sm mt-1 ">
+                    <p>Start date: {data.start_date} </p>
+                    <p>End date: {data.end_date} </p>
+                    <p>Students: </p>
+                  </div>
+                  <h2 className=" ml-24 text-sm mt-1 ">Admin: </h2>
+                </div>
+              ))
+            : cohort
+            ? cohort.map((data) => (
+                <div className=" bg-slate-50 h-32 border-y-2 border-solid border-slate-200 p-2 ">
+                  <div className=" flex flex-row justify-between ">
+                    <Link to={`/cohort/${data.id}`} ><h1 className=" text-blue-500 ml-20 ">{data.name}</h1></Link>
                     <p className=" text-sm text-green-500 ">Active</p>
                   </div>
                   <div className=" ml-40 text-sm mt-1 ">

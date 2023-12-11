@@ -104,6 +104,16 @@ class Studentres(Resource):
 
 api.add_resource(Studentres, '/student', endpoint='student' )
 
+class Studentbyid(Resource):
+    def delete(self, id):
+        student= Student.query.filter(Student.id==id).first()
+        if not student:
+            return{'message':'student doesn\'t exist'}
+        Project.query.filter(Project.student_id==student.id).delete()
+        db.session.delete(student)
+        db.session.commit()
+api.add_resource(Studentbyid, '/student/<int:id>', endpoint='studentid')
+
 class Projectres(Resource):
     def get(self):
         allprojects = Project.query.all()
@@ -145,7 +155,7 @@ class Projectbyid(Resource):
     def patch(self,id):
         project=Project.query.filter_by(id=id).first()
         if not project:
-            return{'error':'Project nit found'}
+            return{'error':'Project not found'}
 
         for attr in request.get_json():
             setattr(project,attr,request.get_json()[attr])
@@ -156,6 +166,10 @@ class Projectbyid(Resource):
             project_dict=project.to_dict()
             response=make_response(jsonify(project_dict),200)
             return response
+        
+    
+
+
 api.add_resource(Projectbyid, '/project/<int:id>',endpoint='projectid')
 
 
@@ -184,7 +198,18 @@ class Cohortres(Resource):
         return response
 
 api.add_resource(Cohortres, '/cohort', endpoint='cohort')
-    
+
+class Cohortbyid(Resource):
+    def get(self,id):
+        cohort= Cohort.query.filter(Cohort.id==id).first()
+        
+        if not cohort:
+            return { 'message': 'cohort doesnt exist' }
+
+        cohort_dict= cohort.to_dict()
+        response = make_response(jsonify(cohort_dict),200)
+        return response
+api.add_resource(Cohortbyid, '/cohort/<int:id>', endpoint='cohortid')    
 
 class Adminres(Resource):
     def get(self):
@@ -268,5 +293,5 @@ api.add_resource(RequestByid,'/request/<int:id>', endpoint='requestbyid' )
 
 
 if __name__=='__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=8000)
 

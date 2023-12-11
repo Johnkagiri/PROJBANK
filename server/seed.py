@@ -52,4 +52,4 @@ with app.app_context():
     # fake_date = fake.date_between(start_date='-7y', end_date='today')
     # cohort=Cohort(name='win',start_date=fake_date, end_date=fake_date, admin_id=1 )
     # db.session.add(cohort)
-    # db.session.commit() 
+    db.session.commit() 

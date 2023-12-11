@@ -20,8 +20,9 @@ function Home({
 }) {
   const [click, setClick] = useState(false);
   const [isrequest, setIsrequest] = useState(false);
+  const [issearch, setIssearch]= useState(false)
 
-  // console.log(projects);
+  // console.log(request);
 
   function handlelogout() {
     setIsloggedin(false);
@@ -31,7 +32,9 @@ function Home({
     setIsrequest(false);
   }
 
-  function handleadd() {}
+  function handlesearch(e) {
+    
+  }
 
   return (
     <div>
@@ -92,7 +95,10 @@ function Home({
           <div className=" w-full sm:w-3/4 sm:ml-auto h-full flex justify-between mt-8">
             <h2 className="p-1">Discover</h2>
             <div className="w-4/6 flex justify-end p-1">
-              <input className="w-full bg-slate-300 rounded-s-md" />
+              <input
+               name="search"
+               onChange={handlesearch}
+              className="w-full bg-slate-300 rounded-s-md" />
               <button className="bg-slate-300 rounded-e-md p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +143,7 @@ function Home({
           )}
 
           {/* card section */}
-          {isrequest ? (
+          {isrequest && request? (
             <Requests request={request} user={user} />
           ) : (
             <Projects

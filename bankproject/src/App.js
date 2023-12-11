@@ -11,6 +11,7 @@ import Addproject from "./Addproject";
 import Addcohort from "./Addcohort";
 import Requestproj from "./Requestproj";
 import Cohorts from "./Cohorts";
+import Singlecohort from "./Singlecohort";
 
 function App() {
   const [user, setUser] = useState({});
@@ -58,19 +59,18 @@ function App() {
     fetch("http://127.0.0.1:8000/request")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setRequest(data);
       });
-  }, [refresh]);
+  }, []);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/cohort")
       .then((res) => res.json())
       .then((data) => {
         setCohort(data);
-
       });
-  });
+  }, [refresh]);
 
   return (
     <div className="text-black-500">
@@ -160,19 +160,7 @@ function App() {
         <Route
           path="/cohort"
           element={
-            <Cohorts
-              projects={projects}
-              isloggedin={isloggedin}
-              user={user}
-              setIsloggedin={setIsloggedin}
-              setUser={setUser}
-              isstudent={isstudent}
-              isadmin={isadmin}
-              setIsadmin={setIsadmin}
-              setIsstudent={setIsstudent}
-              request={request}
-              cohort={cohort}              
-            />
+            <Cohorts isstudent={isstudent} isadmin={isadmin} cohort={cohort} />
           }
         />
         <Route
@@ -182,6 +170,18 @@ function App() {
               user={user}
               isadmin={isadmin}
               isstudent={isstudent}
+              setRefresh={setRefresh}
+              refresh={refresh}
+            />
+          }
+        />
+        <Route
+          path="/cohort/:id"
+          element={
+            <Singlecohort
+              isstudent={isstudent}
+              isadmin={isadmin}
+              cohort={cohort}
               setRefresh={setRefresh}
               refresh={refresh}
             />

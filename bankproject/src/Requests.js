@@ -1,21 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Requests({ request,user }) {
-  
-    const adminids = [];
-    user.cohort.map((data) => {
-      adminids.push(data.id);
-      
-    });
+function Requests({ request, user }) {
+  const adminids = [];
+  user.cohort.map((data) => {
+    adminids.push(data.id);
+  });
 
-    // console.log(request)
+  console.log(request)
 
-    const filterreq= request.filter((data)=>
-        adminids.includes(data.student.cohort.id)
-       ) 
-    console.log(filterreq);  
-
+  const filterreq = request.filter((data) =>
+    adminids.includes(data.student.cohort.id)
+    // console.log(data)
+  );
+  console.log(filterreq);
 
   return (
     <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-20 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
@@ -34,10 +32,7 @@ function Requests({ request,user }) {
               <button className="float-right bg-red-400 mr-4 rounded-md p-1 text-sm ">
                 Decline
               </button>
-              <button
-                
-                className="float-right bg-blue-400 mr-4 rounded-md p-1 text-sm "
-              >
+              <button className="float-right bg-blue-400 mr-4 rounded-md p-1 text-sm ">
                 Accept
               </button>
             </div>

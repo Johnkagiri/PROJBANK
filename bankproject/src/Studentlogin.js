@@ -50,7 +50,7 @@ function Studentlogin({
         setisloggedin(true);
         setIsstudent(true);
         setIsadmin(false);
-        setRefresh(!refresh);
+        // setRefresh(!refresh);
         navigate("/");
         // console.log(user);
         // // Fetch session after a successful login

@@ -8,7 +8,7 @@ function Menu({ isadmin, isstudent, isrequest, setIsrequest }) {
 
   // console.log(projects);
   const sidemenu = classNames(
-    " w-1/2 sm:w-1/4 h-screen  bg-slate-700 fixed top-0 z-10 sm:left-0 rounded-e-md text-center ",
+    " w-1/2 sm:w-1/5 h-screen  bg-slate-700 fixed top-0 z-10 sm:left-0 rounded-e-md text-center ",
     {
       "left-0": click,
       "left-[-400px]": !click,
