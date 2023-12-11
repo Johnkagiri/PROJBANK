@@ -57,6 +57,7 @@ function Requestproj({ isadmin, isstudent, refresh, setRefresh }) {
           .then((data) => {
             console.log(data);
             setRefresh(!refresh);
+            navigate('/')
             enqueueSnackbar(data.message, { variant: "success" });
           });
       });

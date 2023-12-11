@@ -231,7 +231,7 @@ class Requestres(Resource):
         languages = data.get('languages')
         studentid = data.get('studentId')
 
-        reqexist= Request.query.filter(Project.name==name).first()
+        reqexist= Request.query.filter(Request.name==name).first()
 
         if reqexist:
             return {'message':'project exists'}
