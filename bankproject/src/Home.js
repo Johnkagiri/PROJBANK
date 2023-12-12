@@ -20,7 +20,8 @@ function Home({
 }) {
   const [click, setClick] = useState(false);
   const [isrequest, setIsrequest] = useState(false);
-  const [issearch, setIssearch]= useState(false)
+  const [issearch, setIssearch] = useState(false);
+  const [search, setSearch] = useState([]);
 
   // console.log(request);
 
@@ -33,8 +34,22 @@ function Home({
   }
 
   function handlesearch(e) {
-    
+    if (e.target.value.length === 0) {
+      setIssearch(false);
+    } else {
+      setIssearch(true);
+      const lowercasequery = e.target.value.toLowerCase();
+
+      const result = projects.filter((data) =>
+        data.name.toLowerCase().includes(lowercasequery)
+      );
+      // console.log(result);
+      setSearch(result);
+      return result;
+    }
   }
+  console.log(issearch);
+  console.log(search);
 
   return (
     <div>
@@ -96,9 +111,10 @@ function Home({
             <h2 className="p-1">Discover</h2>
             <div className="w-4/6 flex justify-end p-1">
               <input
-               name="search"
-               onChange={handlesearch}
-              className="w-full bg-slate-300 rounded-s-md" />
+                name="search"
+                onChange={handlesearch}
+                className="w-full bg-slate-300 rounded-s-md"
+              />
               <button className="bg-slate-300 rounded-e-md p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -143,8 +159,29 @@ function Home({
           )}
 
           {/* card section */}
-          {isrequest && request? (
+          {isrequest && request ? (
             <Requests request={request} user={user} />
+          ) : issearch && search ? (
+            <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-8 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
+              {search.map((data) => (
+                <div className="w-full bg-slate-300 h-32 rounded-md pt-3">
+                  {" "}
+                  <h3 className=" text-black  ">{data.name}</h3>
+                  <p className="text-sm text-slate-600">
+                    {data.description}
+                  </p>
+                  <p className="text-sm text-slate-600">
+                    {" "}
+                    {data.githublink}
+                  </p>
+                  {isadmin ? (
+                    <button className="float-right bg-red-400 mr-4 rounded-md p-1 text-sm ">
+                      Delete
+                    </button>
+                  ) : null}
+                </div>
+              ))}
+            </div>
           ) : (
             <Projects
               projects={projects}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 
 function Studentlogin({
   setisloggedin,
@@ -51,25 +52,12 @@ function Studentlogin({
         setIsstudent(true);
         setIsadmin(false);
         // setRefresh(!refresh);
+        enqueueSnackbar( "Logged in ", { variant: "success" });
         navigate("/");
-        // console.log(user);
-        // // Fetch session after a successful login
-        // const sessionResponse = await fetch("http://127.0.0.1:8000/session", {
-        //   method: "GET",
-        //   mode: "cors",
-        //   credentials: "include", // "same-origin" may also work
-        // });
-        // const sessionData = await sessionResponse.json();
-
-        // // console.log("Session data:", sessionData);
-
-        // if (sessionData.session !== null) {
-        //   // Session is not null, handle as needed
-        // } else {
-        //   // Session is null, handle as needed
-        // }
+    
       } else {
         console.log("Login failed");
+        enqueueSnackbar("Wrong password or email ", { variant: "error" });
         // Handle unsuccessful login
       }
     } catch (error) {

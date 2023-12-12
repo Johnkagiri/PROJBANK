@@ -62,7 +62,7 @@ function App() {
         // console.log(data);
         setRequest(data);
       });
-  }, []);
+  }, [refresh]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/cohort")

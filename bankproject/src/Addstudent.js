@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 
 function Addstudent({ setRefresh, refresh }) {
     const formik = useFormik({
@@ -18,6 +19,7 @@ function Addstudent({ setRefresh, refresh }) {
           }).then((res) => {
             if (res.status == 200) {
               console.log("succesfull");
+              enqueueSnackbar("Student added succesfully ", { variant: "success" });
               setRefresh(!refresh)
             }
           });
