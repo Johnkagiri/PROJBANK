@@ -44,6 +44,7 @@ class Project(db.Model, SerializerMixin):
     description = db.Column(db.String)
     githublink = db.Column(db.String) 
     languages = db.Column(db.String)
+    image = db.Column(db.String)
 
     student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
     studentproject= db.relationship('StudentProject', backref='project')
@@ -101,6 +102,7 @@ class Request(db.Model, SerializerMixin):
     description = db.Column(db.String)
     githublink = db.Column(db.String) 
     languages = db.Column(db.String)
+    image = db.Column(db.String)
 
     student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
 

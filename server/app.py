@@ -127,12 +127,13 @@ class Projectres(Resource):
         githublink = data.get('githublink') 
         languages = data.get('languages')
         studentid = data.get('studentId')
+        image = data.get('image')
 
         projexist= Project.query.filter(Project.name==name).first()
 
         if projexist:
             return {'message':'project exists'}
-        newproj = Project(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid ) 
+        newproj = Project(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid, image=image ) 
         db.session.add(newproj)
         db.session.commit()
         response = make_response(jsonify(newproj.to_dict()))
@@ -254,13 +255,14 @@ class Requestres(Resource):
         description = data.get('description')
         githublink = data.get('githublink') 
         languages = data.get('languages')
+        image = data.get('image')
         studentid = data.get('studentId')
 
         reqexist= Request.query.filter(Request.name==name).first()
 
         if reqexist:
             return {'message':'project exists'}
-        newreq = Request(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid  ) 
+        newreq = Request(name=name, description=description, githublink=githublink, languages=languages, student_id=studentid, image=image  ) 
         db.session.add(newreq)
         db.session.commit()
         response = make_response(jsonify(newreq.to_dict()))

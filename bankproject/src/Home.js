@@ -164,22 +164,19 @@ function Home({
           ) : issearch && search ? (
             <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-8 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
               {search.map((data) => (
-                <div className="w-full bg-slate-300 h-32 rounded-md pt-3">
-                  {" "}
-                  <h3 className=" text-black  ">{data.name}</h3>
-                  <p className="text-sm text-slate-600">
-                    {data.description}
-                  </p>
-                  <p className="text-sm text-slate-600">
+                <Link to={`/project/${data.id}`}>
+                  <div className="w-full bg-slate-300 h-32 rounded-md pt-3">
                     {" "}
-                    {data.githublink}
-                  </p>
-                  {isadmin ? (
-                    <button className="float-right bg-red-400 mr-4 rounded-md p-1 text-sm ">
-                      Delete
-                    </button>
-                  ) : null}
-                </div>
+                    <h3 className=" text-black  ">{data.name}</h3>
+                    <p className="text-sm text-slate-600">{data.description}</p>
+                    <p className="text-sm text-slate-600"> {data.githublink}</p>
+                    {isadmin ? (
+                      <button className="float-right bg-red-400 mr-4 rounded-md p-1 text-sm ">
+                        Delete
+                      </button>
+                    ) : null}
+                  </div>
+                </Link>
               ))}
             </div>
           ) : (

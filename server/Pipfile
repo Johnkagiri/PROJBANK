@@ -7,7 +7,6 @@ name = "pypi"
 flask-migrate = "*"
 flask-sqlalchemy = "*"
 flask-restful = "*"
-flask-cors = "*"
 flask = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
@@ -16,6 +15,7 @@ flask-bcrypt = "*"
 faker = "*"
 python-dotenv = "*"
 flask-session = "*"
+flask-cors = "*"
 
 [dev-packages]
 

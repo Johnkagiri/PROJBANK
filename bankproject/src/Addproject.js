@@ -1,9 +1,10 @@
-import React from "react";
-import { useFormik } from "formik";
+import React, { useState } from "react";
+import { useFormik, Formik, Form } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { enqueueSnackbar, useSnackbar } from "notistack";
 
 function Addproject({ user, setRefresh, refresh }) {
+  const [url, setUrl] = useState("");
   const navigate = useNavigate();
 
   const userid = user.id;
@@ -18,35 +19,74 @@ function Addproject({ user, setRefresh, refresh }) {
       description: "",
       githublink: "",
       languages: "",
+      image: "",
       studentId: userid,
     },
     onSubmit: async (values) => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/request", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
+        const uploadImage = () => {
+          const data = new FormData();
+          data.append("file", formik.values.image);
+          data.append("upload_preset", "tracker");
+          data.append("cloud_name", "ddukojge8");
+          fetch(" https://api.cloudinary.com/v1_1/ddukojge8 ", {
+            method: "post",
+            body: data,
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              if (data.url) {
+                fetch("http://127.0.0.1:8000/request", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(values),
+                })
+                  .then((res) => {
+                    if (res.status === 200) {
+                      console.log("Project added sucessfully");
 
-        if (response.status === 200) {
-          console.log("Project added sucessfully");
-          const data = await response.json();
-          console.log(data);
-          enqueueSnackbar("Request send successfully", { variant: "success" });
-          navigate("/");
-          setRefresh(!refresh);
-        } else {
-          console.log("Login failed");
-          // Handle unsuccessful login
-        }
+                      enqueueSnackbar("Request send successfully", {
+                        variant: "success",
+                      });
+                      navigate("/");
+                      setRefresh(!refresh);
+                      return res.json();
+                    } else {
+                      console.log("Login failed");
+                      // Handle unsuccessful login
+                    }
+                  })
+                  .then((data) => console.log(data));
+              }
+              setUrl(data.url);
+            })
+            .catch((err) => console.log(err));
+        };
+        uploadImage();
       } catch (error) {
         console.error("Error during login:", error);
         // Handle error during login
       }
     },
   });
+
+  // const uploadImage = () => {
+  //   const data = new FormData()
+  //   data.append("file", images)
+  //   data.append("upload_preset", "tracker")
+  //   data.append("cloud_name","ddukojge8")
+  //   fetch(" https://api.cloudinary.com/v1_1/ddukojge8 ",{
+  //   method:"post",
+  //   body: data
+  //   })
+  //   .then(resp => resp.json())
+  //   .then(data => {
+  //   setUrl(data.url)
+  //   })
+  //   .catch(err => console.log(err))
+  //   }
 
   return (
     <div>
@@ -99,6 +139,14 @@ function Addproject({ user, setRefresh, refresh }) {
               onChange={formik.handleChange}
               value={formik.values.languages}
               className=" w-full bg-gray-300 text-sm text-slate-700 "
+            />
+            <label className="text-gray-600">images</label>
+            <input
+              type="file"
+              name="image"
+              onChange={(e) => {
+                formik.setFieldValue("image", e.currentTarget.files[0]);
+              }}
             />
             <button
               type="submit"
