@@ -22,9 +22,10 @@ function Requests({ request, user }) {
           <Link to={`/request/${requests.id}`}>
             {" "}
             <div
-              className="w-full bg-slate-300 h-32 rounded-md pt-3"
+              className="w-full bg-slate-300 h-72 rounded-md pt-3"
               key={requests.id}
             >
+              <img className=" m-auto sm:w-full sm:h-40 px-2 " src={requests.image} alt="project" />
               <h3 className=" text-black  ">{requests.name}</h3>
               <p className="text-sm text-slate-600">{requests.description}</p>
               <p className="text-sm text-slate-600"> {requests.githublink}</p>
