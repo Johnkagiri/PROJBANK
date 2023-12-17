@@ -46,8 +46,8 @@ function Addproject({ user, setRefresh, refresh }) {
               studentId: user.id,
             }),
           })
-            .then((res) => {
-              if (res.status === 201) {
+            .then(res => {
+              if (res.status === 200) {
                 enqueueSnackbar("Record posted!", { variant: "success" });
                 return res.json();
               } else {

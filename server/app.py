@@ -168,9 +168,18 @@ class Projectbyid(Resource):
             response=make_response(jsonify(project_dict),200)
             return response
         
-    
+    def delete(self,id):
+        project= Project.query.filter_by(id=id).first()
 
+        if not project:
+            return {'message':'project doesnt exit'},403
+        
+        StudentProject.query.filter(StudentProject.student_id==project.id).delete()
 
+        db.session.delete(project)
+        db.session.commit()
+        
+        return {'Message':'Deleted'},200
 api.add_resource(Projectbyid, '/project/<int:id>',endpoint='projectid')
 
 
@@ -290,7 +299,7 @@ class RequestByid(Resource):
         db.session.delete(req)
         db.session.commit()
 
-        return {'message': 'deleted  succesfully'}
+        return {'message': 'deleted  succesfully'},200
 api.add_resource(RequestByid,'/request/<int:id>', endpoint='requestbyid' )
 
 

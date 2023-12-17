@@ -17,6 +17,8 @@ function Home({
   setIsstudent,
   setIsadmin,
   request,
+  refresh,
+  setRefresh
 }) {
   const [click, setClick] = useState(false);
   const [isrequest, setIsrequest] = useState(false);
@@ -160,7 +162,7 @@ function Home({
 
           {/* card section */}
           {isrequest && request ? (
-            <Requests request={request} user={user} />
+            <Requests request={request} user={user} refresh={refresh} setRefresh={setRefresh} />
           ) : issearch && search ? (
             <div className=" w-full sm:w-3/4 sm:ml-auto h-full mt-8 grid grid-cols-1 gap-4 p-1 sm:grid-cols-2 text-center ">
               {search.map((data) => (
@@ -184,6 +186,8 @@ function Home({
               projects={projects}
               isstudent={isstudent}
               isadmin={isadmin}
+              refresh={refresh}
+              setRefresh={setRefresh}
             />
           )}
           {/* menu section */}
