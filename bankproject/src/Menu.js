@@ -25,6 +25,8 @@ function Menu({ isadmin, isstudent, isrequest, setIsrequest }) {
     navigate('/')
   }
 
+  const colllab = classNames()
+
   return (
     <div className={sidemenu}>
       <div className="w-24 bg-slate-400 m-auto mt-10 rounded-lg h-10 p-2 ">
