@@ -302,6 +302,23 @@ class RequestByid(Resource):
         return {'message': 'deleted  succesfully'},200
 api.add_resource(RequestByid,'/request/<int:id>', endpoint='requestbyid' )
 
+class Studentprojectres(Resource):
+    def get(self):
+        studentproject = StudentProject.query.all()
+        studentproject_todict=[ stproj.to_dict() for stproj in studentproject ]
+        response = make_response(jsonify(studentproject_todict),200)
+        return response
+    
+    def post(self):
+        data = request.get_json()
+        studentid= data.get('studentId')
+        projectid= data.get('projectId')
+
+        studentproject= StudentProject( student_id=studentid, project_id=projectid )
+        db.session.add(studentproject)
+        db.session.commit()
+
+api.add_resource(Studentprojectres,"/studentproject",endpoint='studentproject')        
 
 if __name__=='__main__':
     app.run(debug=True, port=8000)

@@ -37,7 +37,7 @@ class Student(db.Model, SerializerMixin ):
 
 class Project(db.Model, SerializerMixin):
     __tablename__='projects'
-    serialize_rules=('-studentproject.project', '-student.project' )    
+    serialize_rules=('-studentproject.project', '-student.project', )    
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)

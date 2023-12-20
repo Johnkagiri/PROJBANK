@@ -16,6 +16,8 @@ function Addproject({ user, setRefresh, refresh }) {
   const [search, setSearch] = useState([]);
   const [searchvalue, setSearchvalue] = useState("");
   const [matched, setMatched] = useState(false);
+  const [searchid, setSearchid] = useState();
+  const [requestid, setRequestid] = useState();
   //handleSubmit function, plus upload image url to database
 
   useEffect(() => {
@@ -23,6 +25,21 @@ function Addproject({ user, setRefresh, refresh }) {
       .then((res) => res.json())
       .then((data) => setStudent(data));
   }, []);
+
+  function handleadd() {
+    const values = {
+      studentId: 22,
+      projectId: 41,
+    };
+
+    fetch("http://127.0.0.1:8000/studentproject", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -67,6 +84,7 @@ function Addproject({ user, setRefresh, refresh }) {
                 return res.json().then((data) => {
                   enqueueSnackbar("Record post failed", { variant: "error" });
                   console.log(data);
+                  setRequestid(data.id);
                 });
               }
             })
@@ -109,10 +127,11 @@ function Addproject({ user, setRefresh, refresh }) {
       // console.log(result);
     }
   }
-  function handlelistclick(name) {
+  function handlelistclick(name, id) {
     setSearchvalue(name);
     setIssearch(false);
     setMatched(true);
+    setSearchid(id);
   }
 
   return (
@@ -165,14 +184,13 @@ function Addproject({ user, setRefresh, refresh }) {
               className="text-rich-black px-2 rounded"
               onChange={(e) => setImage(e.target.files[0])}
             />
-            
-              <button
-                type="submit"
-                className="text-sm bg-blue-500 my-5 mx-auto py-2  w-2/6"
-              >
-                ADD
-              </button>
-           
+
+            <button
+              type="submit"
+              className="text-sm bg-blue-500 my-5 mx-auto py-2  w-2/6"
+            >
+              ADD
+            </button>
           </form>
         </div>
       </div>
@@ -183,24 +201,35 @@ function Addproject({ user, setRefresh, refresh }) {
             value={searchvalue}
             className=" bg-slate-400 "
           />{" "}
-         {matched?<span className=" bg-blue-400 rounded-md ">ADD</span>:null  } 
-          <div className={studentlist}>
-            {search
-              ? search.map((data) => (
-                  <ul>
-                    <li
-                      className=" cursor-pointer "
-                      onClick={() => {
-                        handlelistclick(data.name);
-                      }}
-                    >
-                      {" "}
-                      <h1>{data.name} </h1> <p>id: {data.id}</p>{" "}
-                    </li>
-                  </ul>
-                ))
-              : null}
-          </div>
+          {matched ? (
+            <span
+              onClick={() => handleadd()}
+              className=" bg-blue-400 rounded-md "
+            >
+              ADD
+            </span>
+          ) : null}
+          {issearch ? (
+            <div className={studentlist}>
+              {search
+                ? search.map((data) => (
+                    <ul>
+                      <li
+                        className=" cursor-pointer "
+                        onClick={() => {
+                          handlelistclick(data.name, data.id);
+                        }}
+                      >
+                        {" "}
+                        <h1>{data.name} </h1> <p>id: {data.id}</p>{" "}
+                      </li>
+                    </ul>
+                  ))
+                : null}
+            </div>
+          ) : (
+            <div className="bg-blue-300 h-32 w-full "></div>
+          )}
         </div>
       </div>
     </div>
