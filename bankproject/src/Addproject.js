@@ -10,7 +10,7 @@ function Addproject({ user, setRefresh, refresh }) {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState();
   const [languages, setLanguages] = useState("");
-  const [iscollaborate, setIscollaborate] = useState(true);
+  const [iscollaborate, setIscollaborate] = useState(false);
   const [student, setStudent] = useState([]);
   const [issearch, setIssearch] = useState(false);
   const [search, setSearch] = useState([]);
@@ -27,9 +27,12 @@ function Addproject({ user, setRefresh, refresh }) {
   }, []);
 
   function handleadd() {
+    const stuid = student.id;
+    console.log(requestid);
+    
     const values = {
-      studentId: 22,
-      projectId: 41,
+      studentId: user.id,
+      requestId: requestid,
     };
 
     fetch("http://127.0.0.1:8000/studentproject", {
@@ -79,16 +82,22 @@ function Addproject({ user, setRefresh, refresh }) {
             .then((res) => {
               if (res.status === 200) {
                 enqueueSnackbar("Record posted!", { variant: "success" });
+                
                 return res.json();
               } else {
                 return res.json().then((data) => {
                   enqueueSnackbar("Record post failed", { variant: "error" });
                   console.log(data);
-                  setRequestid(data.id);
+                  
                 });
               }
             })
-            .then(() => setRefresh(!refresh))
+            .then((data) => {
+              console.log(data.id);
+              setRequestid(data.id);
+              setIscollaborate(true)
+              setRefresh(!refresh)
+            })
             .catch((e) => console.log(e));
         } else {
           enqueueSnackbar("Image upload failed", { variant: "error" });

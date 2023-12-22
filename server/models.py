@@ -87,15 +87,17 @@ class Admin(db.Model, SerializerMixin):
 
 class StudentProject(db.Model, SerializerMixin):
     __tablename__='StudentsProjects'
-    serialize_rules = ('-student.studentproject','-project.studentproject',)
+    serialize_rules = ('-student.studentproject','-project.studentproject','-student.project.studentproject','-student.request.studentproject','-project.student.studentproject', '-request.studentproject', '-request.student.studentproject' ,)
 
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
-    project_id = db.Column(db.Integer(), db.ForeignKey('projects.id'))
+    project_id = db.Column(db.Integer(), db.ForeignKey('projects.id'), nullable=True)
+    request_id = db.Column(db.Integer(), db.ForeignKey('request.id'), nullable=True)
+
 
 class Request(db.Model, SerializerMixin):
     __tablename__='request'
-    serialize_rules = ('-student.request', )
+    serialize_rules = ('-student.request', '-studentproject.request',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -105,6 +107,7 @@ class Request(db.Model, SerializerMixin):
     image = db.Column(db.String)
 
     student_id = db.Column(db.Integer(), db.ForeignKey('students.id'))
+    studentproject = db.relationship('StudentProject', backref='request')
 
 
 

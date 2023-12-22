@@ -313,8 +313,9 @@ class Studentprojectres(Resource):
         data = request.get_json()
         studentid= data.get('studentId')
         projectid= data.get('projectId')
+        requestid= data.get('requestId')
 
-        studentproject= StudentProject( student_id=studentid, project_id=projectid )
+        studentproject= StudentProject( student_id=studentid, project_id=projectid, request_id=requestid )
         db.session.add(studentproject)
         db.session.commit()
 
